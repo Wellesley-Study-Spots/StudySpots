@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<form method = "POST" class = "form">
+    <p>
+        <label> Wellesley Email: 
+            <input type = "email"  name = "email" value="{{email}}"><br/>
+        </label>
+        <label> Password: 
+            <input type = "text"  name = "password" value="{{password}}"><br/>
+        </label>
+        <input type = "submit" name = "submit" value = "login">
+    </p>
+</form>    
+
+{% endblock %}

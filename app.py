@@ -7,6 +7,7 @@ app = Flask(__name__)
 # change comment characters to switch to SQLite
 
 import cs304dbi as dbi
+import login_app
 # import cs304dbi_sqlite3 as dbi
 
 import random
@@ -24,6 +25,65 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 @app.route('/')
 def index():
     return render_template('main.html',title='Hello')
+
+@app.route('/signup/', methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        email = request.form.get('email')
+        username = request.form.get('username')
+        passwd = request.form.get('password')
+
+        conn = dbi.connect()
+
+        row = login_app.insert_user(conn, email, username, passwd)
+
+        if row == (False, True, False):
+            flash('duplicate key for username {}'.format(username))
+            return redirect( url_for('index'))
+        elif row[0] == False and row[1] == False:
+            flash('some other error')
+            return render_template('signup.html')
+    return render_template('signup.html')
+
+@app.route('/login/', methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+        email = request.form.get('email')
+        username = request.form.get('username')
+        passwd = request.form.get('password')
+
+        conn = dbi.connect()
+
+        row = insert_user(conn, email, username, password)
+
+        if row == (False, True, False):
+            flash('duplicate key for username {}'.format(username))
+            return redirect( url_for('index'))
+        elif row[0] == False and row[1] == False:
+            flash('some other error')
+            return redirect( url_for('index'))
+
+        stored = row['hashed']
+        print('database has stored: {} {}'.format(stored,type(stored)))
+        print('form supplied passwd: {} {}'.format(passwd,type(passwd)))
+        hashed2 = bcrypt.hashpw(passwd.encode('utf-8'),
+                                stored.encode('utf-8'))
+        hashed2_str = hashed2.decode('utf-8')
+        print('rehash is: {} {}'.format(hashed2_str,type(hashed2_str)))
+        if hashed2_str == stored:
+            print('they match!')
+            flash('successfully logged in as '+username)
+            session['username'] = username
+            session['uid'] = row['uid']
+            session['logged_in'] = True
+            session['visits'] = 1
+            return redirect( url_for('user', username=username) )
+        else:
+            flash('login incorrect. Try again or join')
+            return redirect( url_for('index'))
+    return render_template('login.html')
+
 
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():
@@ -67,7 +127,7 @@ def testform():
 def init_db():
     dbi.cache_cnf()
     # set this local variable to 'wmdb' or your personal or team db
-    db_to_use = 'put_database_name_here_db' 
+    db_to_use = 'studspot_db' 
     dbi.use(db_to_use)
     print('will connect to {}'.format(db_to_use))
 
