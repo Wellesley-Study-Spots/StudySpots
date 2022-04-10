@@ -24,7 +24,15 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
 @app.route('/')
 def index():
-    return render_template('main.html')
+    #gets session value
+    sessvalue = request.cookies.get('session')
+
+    #if there is no session (meaning the user has not logged in) go to main template
+    if sessvalue == None:
+        return render_template('main.html')
+    #if the user is logged in, then go to greet.html (we'll need to change this later but it's just a placeholder for now)
+    else:
+        return redirect(url_for("greet"))
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -66,8 +74,7 @@ def login():
             session['uid'] = row[1]
             session['logged_in'] = True
             session['visits'] = 1
-            # return redirect( url_for('user', username=username) )
-            return redirect( url_for('greet'))
+            return redirect( url_for('greet')) #also just a placeholder for now, should redirect somewhere else
     return render_template('login.html')
 
 @app.route('/greet/', methods=["GET", "POST"])
