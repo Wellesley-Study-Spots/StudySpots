@@ -24,7 +24,7 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
 @app.route('/')
 def index():
-    return render_template('main.html',title='Hello')
+    return render_template('main.html')
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -55,35 +55,20 @@ def login():
 
         conn = dbi.connect()
 
-        row = insert_user(conn, email, username, password)
+        row = login_app.login_user(conn, username, passwd)
 
-        if row == (False, True, False):
-            flash('duplicate key for username {}'.format(username))
-            return redirect( url_for('index'))
-        elif row[0] == False and row[1] == False:
-            flash('some other error')
-            return redirect( url_for('index'))
-
-        stored = row['hashed']
-        print('database has stored: {} {}'.format(stored,type(stored)))
-        print('form supplied passwd: {} {}'.format(passwd,type(passwd)))
-        hashed2 = bcrypt.hashpw(passwd.encode('utf-8'),
-                                stored.encode('utf-8'))
-        hashed2_str = hashed2.decode('utf-8')
-        print('rehash is: {} {}'.format(hashed2_str,type(hashed2_str)))
-        if hashed2_str == stored:
-            print('they match!')
-            flash('successfully logged in as '+username)
+        if row == (False, False):
+            flash('login incorrect. Try again or join')
+            return render_template('login.html')
+        else:
+            flash('successfully logged in ' + username)
             session['username'] = username
-            session['uid'] = row['uid']
+            session['uid'] = row[1]
             session['logged_in'] = True
             session['visits'] = 1
-            return redirect( url_for('user', username=username) )
-        else:
-            flash('login incorrect. Try again or join')
-            return redirect( url_for('index'))
+            # return redirect( url_for('user', username=username) )
+            return redirect( url_for('greet'))
     return render_template('login.html')
-
 
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():

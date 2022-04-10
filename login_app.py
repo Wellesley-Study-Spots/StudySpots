@@ -32,7 +32,7 @@ def login_user(conn, username, password):
     '''tries to log the user in given username & password. Returns True if
 success and returns the uid as the second value on success. Otherwise, False, False.'''
     curs = dbi.cursor(conn)
-    curs.execute('''SELECT uid, hashed FROM userpass WHERE username = %s''',
+    curs.execute('''SELECT uid, hashed FROM user WHERE username = %s''',
                  [username])
     row = curs.fetchone()
     if row is None:
