@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
+{% block nav %}
+{% endblock %}
+
 {% block main_content %}
-<h1>Hello!</h1>
+<div>
+    <h1>Study Spots</h1>
+    <h2>Find and review on/off campus spots</h2>
 
-<p>In order to sign up for an account, visit this <a href="{{ url_for('signup') }}">sign up</a> page.</p>
-<p>In order to login, visit this <a href="{{ url_for('login') }}">login</a> page.</p>
-
+    <div class="signup_login">
+        <a href="{{ url_for('signup') }}">Sign Up</a>
+        <a href="{{ url_for('login') }}">Login</a>
+    </div>
+    <p>Wellesley email required</p>
+</div>
 {% endblock %}

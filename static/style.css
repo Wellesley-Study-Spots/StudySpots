@@ -2,11 +2,13 @@
 */
 
 HTML {
-    --color-header: #007ea9;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
-    --color-hilite: #b50000;  /* was red, but this avoids WAVE contrast errors */ 
-    --color-focus: #56B929;
-    --font-family: Verdana;
-    font-family: var(--font-family)
+    --color-header: #00000;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
+    --color-hilite: #00000;  /* was red, but this avoids WAVE contrast errors */ 
+    --color-focus: #00000;
+    /* --font-family: Verdana; */
+    --font-family: 'Inter', sans-serif;    
+    font-family: var(--font-family);
+    background-color: #E5E5E5;
 }
 
 /* For flashed messages; make them stand out using red and italics */
@@ -16,14 +18,54 @@ HTML {
     font-style: italic;
 }
 
+div {
+    display: flex;
+    flex-direction: column;
+    margin: 150px 0px;
+}
+
 
 h1 {
     font-size: 200%;
     color: var(--color-header);
+    font-weight: 500;
+    margin: 0 auto;
+    padding: 10px 0px;
 }
 
 h2, h3 {
     color: var(--color-header);
+    font-weight: 300;
+    margin: 0 auto;
+    padding: 10px 0px;
+}
+
+.signup_login {
+    display: flex;
+    margin: 0px auto;
+    flex-direction: row;
+}
+
+a {
+    color: black;
+    margin: 20px 50px;
+    padding: 10px 20px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    text-decoration: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    transition-delay: 0s;
+}
+
+a:hover {
+    background-color: #a6a6a6;
+  }
+
+p {
+    margin: 0px auto;
+    padding: 10px 0px;
+    font-weight: 300;
 }
     
 

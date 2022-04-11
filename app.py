@@ -80,12 +80,12 @@ def login():
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():
     if request.method == 'GET':
-        return render_template('greet.html', title='Customized Greeting')
+        return render_template('homepage.html', title='Customized Greeting')
     else:
         try:
             username = request.form['username'] # throws error if there's trouble
             flash('form submission successful')
-            return render_template('greet.html',
+            return render_template('homepage.html',
                                    title='Welcome '+username,
                                    name=username)
 
