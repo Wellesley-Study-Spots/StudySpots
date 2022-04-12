@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 
-{% block main_content %}
+{% block nav %}
+{% endblock %}
 
-<form method = "POST" class = "form">
-    <p>
-        <label> Username: 
-            <input type = "text"  name = "username" value="{{username}}"><br/>
-        </label>
-        <label> Password: 
-            <input type = "text"  name = "password" value="{{password}}"><br/>
-        </label>
-        <input type = "submit" name = "submit" value = "login">
-    </p>
-</form>    
+{% block main_content %}
+<div class="main">
+    <h1>Study Spots</h1>
+    <form method = "POST" class = "form">
+        <p>
+            <label> 
+                <input type = "text"  name = "username" value="{{username}}" placeholder="username"><br/>
+            </label>
+            <label>
+                <input type = "text"  name = "password" value="{{password}}" placeholder="password"><br/>
+            </label>
+            <input class = "submit" type = "submit" name = "submit" value = "login">
+        </p>
+    </form>    
+</div>
 
 {% endblock %}

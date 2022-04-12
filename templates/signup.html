@@ -1,20 +1,28 @@
 {% extends "base.html" %}
 
+{% block nav %}
+{% endblock %}
+
 {% block main_content %}
 
-<form method = "POST" action ="{{url_for('signup')}}" class = "form">
-    <p>
-        <label> Wellesley Email: 
-            <input type = "email"  name = "email" value="{{email}}"><br/>
-        </label>
-        <label> Username: 
-            <input type = "text"  name = "username" value={{username}}><br/>
-        </label>
-        <label> Password: 
-            <input type = "text"  name = "password" value="{{password}}"><br/>
-        </label>
-        <input type = "submit" name = "submit" value = "sign up">
-    </p>
-</form>    
+    <div class="main">
+        <h1>Study Spots</h1>
+        <form method = "POST" action ="{{url_for('signup')}}" class = "form">
+            <p>
+                <label> 
+                    <input type = "email"  name = "email" value="{{email}}" placeholder="email"><br/>
+                </label>
+                <label>
+                    <input type = "text"  name = "username" value="{{username}}" placeholder="username" ><br/>
+                </label>
+                <label>
+                    <input type = "text"  name = "password" value="{{password}}" placeholder="password"><br/>
+                </label>
+                <input class = "submit" type = "submit" name = "submit" value = "sign up">
+            </p>
+        </form>    
+
+        <p>Have an account? <a href = "{{url_for('login')}}" class="redirect_login">Log in!</a></p>
+    </div>
 
 {% endblock %}

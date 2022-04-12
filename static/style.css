@@ -28,7 +28,7 @@ div {
 h1 {
     font-size: 200%;
     color: var(--color-header);
-    font-weight: 500;
+    font-weight: 700;
     margin: 0 auto;
     padding: 10px 0px;
 }
@@ -46,7 +46,7 @@ h2, h3 {
     flex-direction: row;
 }
 
-a {
+.main_redirect {
     color: black;
     margin: 20px 50px;
     padding: 10px 20px;
@@ -63,11 +63,27 @@ a:hover {
   }
 
 p {
-    margin: 0px auto;
+    /* margin: 0px auto; */
+    text-align: center;
     padding: 10px 0px;
     font-weight: 300;
+} 
+
+input {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+
 }
-    
+
+.submit {
+    margin-top: 20px;
+    background-color: #a6a6a6;
+}
+
+.redirect_login {
+    color: black;
+    font-weight: 500;
+}
 
 /* for a simple navbar. Talk to Scott if you want drop-downs. */
 nav > ul {
