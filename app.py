@@ -28,11 +28,12 @@ def index():
     sessvalue = request.cookies.get('session')
 
     #if there is no session (meaning the user has not logged in) go to main template
-    if sessvalue == None:
-        return render_template('main.html')
+    if 'logged_in' in session:
+        return redirect(url_for("greet"))
     #if the user is logged in, then go to greet.html (we'll need to change this later but it's just a placeholder for now)
     else:
-        return redirect(url_for("greet"))
+        return render_template('main.html')
+
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -69,13 +70,27 @@ def login():
             flash('login incorrect. Try again or join')
             return render_template('login.html')
         else:
-            flash('successfully logged in ' + username)
+            # flash('successfully logged in ' + username)
             session['username'] = username
             session['uid'] = row[1]
             session['logged_in'] = True
             session['visits'] = 1
             return redirect( url_for('greet')) #also just a placeholder for now, should redirect somewhere else
     return render_template('login.html')
+
+
+@app.route('/logout/')
+def logout():
+    if 'username' in session:
+        username = session['username']
+        session.pop('username')
+        session.pop('uid')
+        session.pop('logged_in')
+        flash('You are logged out')
+        return redirect(url_for('index'))
+    else:
+        flash('you are not logged in. Please login or join')
+        return redirect( url_for('index') )
 
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():

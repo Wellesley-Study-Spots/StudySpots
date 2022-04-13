@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
+{% block nav %}
+    <div class = "header">
+        <h2 class = "title">StudySpots</h1>
+        <a class = "main_redirect logout" href="{{ url_for('logout') }}">Log Out</a>
+    </div>
+{% endblock %}
+
 {% block main_content %}
-<div>
-    <p>This is the homepage</p>
-</div>
+    <div class = "main homepage">
+        <h1>StudySpots</h1>
+        <h3>Find and review on/off campus study spots</h3>
+
+    </div>
 {% endblock %}

@@ -18,10 +18,10 @@ HTML {
     font-style: italic;
 }
 
-div {
+.main {
     display: flex;
     flex-direction: column;
-    margin: 150px 0px;
+    margin: 130px 0px;
 }
 
 
@@ -38,6 +38,8 @@ h2, h3 {
     font-weight: 300;
     margin: 0 auto;
     padding: 10px 0px;
+    letter-spacing: 1px;
+
 }
 
 .signup_login {
@@ -77,12 +79,41 @@ input {
 
 .submit {
     margin-top: 20px;
-    background-color: #a6a6a6;
+    background-color: #c7c7c7;
+    border: 1px solid #c7c7c7;
+    text-shadow: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    transition-delay: 0s;
+}
+
+.submit:hover {
+    background-color: #a6a6a6
 }
 
 .redirect_login {
     color: black;
     font-weight: 500;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 50px 100px 0px;
+}
+
+.title {
+    margin: 0px 0px;
+    padding: 0px;
+}
+
+.logout {
+    margin: 0px;
+}
+
+.homepage {
+    margin-top: 30px;
 }
 
 /* for a simple navbar. Talk to Scott if you want drop-downs. */
