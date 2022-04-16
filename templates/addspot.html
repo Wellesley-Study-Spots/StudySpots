@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <div class = "header">
+        <h2 class = "title">StudySpots</h1>
+        <a class = "main_redirect logout" href="{{ url_for('logout') }}">Log Out</a>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+<h1>Add a new spot</h1>
+
+<form method="post" action="{{url_for('formecho')}}">
+<p><label>Title:
+    <input required type="text" name="user" size="50" placeholder="name of StudySpot"></label></p>
+
+<p><label>Description:
+    <textarea required name="quest" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
+</label></p>
+
+<div>
+    Select a location
+    <label>
+        <input required type="radio" name="location" value="w-on">
+        Wellesley (on-campus)
+    </label>
+    <label>
+        <input required type="radio" name="location" value="w-off">
+        Wellesley (off-campus)
+    </label>
+    <label>
+        <input required type="radio" name="location" value="bos">
+        Boston
+    </label>
+    <label>
+        <input required type="radio" name="location" value="cam">
+        Cambridge
+    </label>
+</div>
+
+<div>
+    <label>
+        <input type="checkbox" name="amenities" value="bathroom">
+        Bathroom access
+    </label>
+    <label>
+        <input type="checkbox" name="amenities" value="drinks">
+        Drinks options
+    </label>
+    <label>
+        <input type="checkbox" name="amenities" value="food">
+        Food options
+    </label>
+    <label>
+        <input type="checkbox" name="amenities" value="outlet">
+        Outlets available
+    </label>
+    <label>
+        <input type="checkbox" name="amenities" value="wifi">
+        Free Wifi available
+    </label>
+</div>
+
+<p><input type="submit" value="Submit"></p>
+</form>
+
+{% endblock %}
