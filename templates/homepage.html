@@ -12,5 +12,41 @@
         <h1>StudySpots</h1>
         <h3>Find and review on/off campus study spots</h3>
 
+        <div class="flex-container">
+            <!-- START Placeholders to delete later-->
+            <div class="spot">
+                <div class="photo"></div>
+                
+                <a href=""><h4 class='name'>Tatte Cafe</h4></a> 
+                <h4 class='location'>Cambridge</h4>
+
+            </div>
+
+            <div class="spot">
+                <a href=""><h4 class='name'>Placeholder 2</h4></a>
+                <h4 class='location'>Boston</h4>
+            </div>
+
+            <div class="spot">
+                <a href=""><h4 class='name'>Placeholder 3</h4></a>
+                <h4 class='location'>Wellesley (on-campus)</h4>
+            </div>
+            <!-- END Placeholders to delete later-->
+            
+        {% for s in spots %}
+        <div class="spot">
+        <!-- 
+            spotname = {{s['spotname']}} 
+            location = {{s['location']}}
+            photo = {{s['photo']}}
+        -->
+            <div class="photo">{{s['photo']}}</div>
+                
+            <a href=""><h4 class='name'>{{s['spotname']}}</h4></a> 
+            <h4 class='location'>{{s['location']}}</h4>
+        </div>
+        {% endfor %}
+        
+    </div>
     </div>
 {% endblock %}

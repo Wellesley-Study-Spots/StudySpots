@@ -165,3 +165,43 @@ nav button:hover, button:focus, nav a:hover, nav a:focus {
     background-color: var(--color-focus);
 }
 
+/* for homepage.html */ 
+.flex-container {
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+.spot {
+    margin: 100px;
+}
+
+a:link {
+    font-style: normal;
+    text-decoration: none;
+    color: black;
+}
+a:visited {
+    font-style: normal;
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    font-style: normal;
+    text-decoration: none;
+    color: grey;
+}
+
+
+.name {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+.location {
+    font-size: 18px;
+    font-weight: lighter;
+    margin-top: 6px;
+}

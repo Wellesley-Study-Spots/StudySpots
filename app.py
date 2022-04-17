@@ -6,8 +6,9 @@ app = Flask(__name__)
 # one or the other of these. Defaults to MySQL (PyMySQL)
 # change comment characters to switch to SQLite
 
-import cs304dbi as dbi
+import cs304dbi as dbi # question - do we want this to be studspot_db as dbi?
 import login_app
+import dbsearch_app
 # import cs304dbi_sqlite3 as dbi
 
 import random
@@ -95,7 +96,11 @@ def logout():
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():
     if request.method == 'GET':
-        return render_template('homepage.html', title='Customized Greeting')
+        # get all study spots 
+        conn = dbi.connect()
+        spots = dbsearch_app.all_spots_lookup(conn)
+        # render them on page
+        return render_template('homepage.html', spots = spots)
     else:
         try:
             username = request.form['username'] # throws error if there's trouble
