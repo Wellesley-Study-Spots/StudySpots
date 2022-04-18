@@ -49,6 +49,11 @@ success and returns the uid as the second value on success. Otherwise, False, Fa
         return (False, False)
 
 def delete_user(conn, username):
+    '''
+    deletes user from the database, does not return any value
+
+    currently not implemented!!
+    '''
     curs = dbi.cursor(conn)
     curs.execute('''DELETE FROM userpass WHERE username = %s''',
                  [username])

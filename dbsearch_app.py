@@ -1,7 +1,9 @@
 import cs304dbi as dbi
 
-# Gets all of the spots in the database
 def all_spots_lookup(conn):
+    ''' 
+    gets all of the spots in the database
+    '''
     curs = dbi.dict_cursor(conn)
     curs.execute('''select *
         from spot

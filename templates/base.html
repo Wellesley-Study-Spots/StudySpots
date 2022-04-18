@@ -25,13 +25,10 @@
 {% endwith %}
             
 {% block nav %}
-<nav>
-  <ul>
-    <li><a href="{{url_for('index')}}">home</a></li>
-    <li><a href="{{url_for('greet')}}">greet</a></li>
-    <li><a href="{{url_for('addspot')}}">add spot</a></li>
-  </ul>
-</nav>
+  <div class = "header">
+    <h2 class = "title">StudySpots</h1>
+    <a class = "main_redirect logout" href="{{ url_for('logout') }}">Log Out</a>
+  </div>
 {% endblock %}
 
 {% block main_content %}

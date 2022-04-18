@@ -28,10 +28,10 @@ def index():
     #gets session value
     sessvalue = request.cookies.get('session')
 
-    #if there is no session (meaning the user has not logged in) go to main template
+    #if the user is logged in, then redirect the user so they do not have to login again
     if 'logged_in' in session:
-        return redirect(url_for("greet"))
-    #if the user is logged in, then go to greet.html (we'll need to change this later but it's just a placeholder for now)
+        return redirect(url_for("homepage.html"))
+    #if the user is not logged in, have them either sign up or login
     else:
         return render_template('main.html')
 
@@ -47,9 +47,11 @@ def signup():
 
         row = login_app.insert_user(conn, email, username, passwd)
 
+        #if the username already exists
         if row == (False, True, False):
             flash('duplicate key for username {}'.format(username))
             return redirect( url_for('index'))
+        #if there was some other error
         elif row[0] == False and row[1] == False:
             flash('some other error')
             return render_template('signup.html')
@@ -67,21 +69,22 @@ def login():
 
         row = login_app.login_user(conn, username, passwd)
 
+        #if the login information was incorrect
         if row == (False, False):
             flash('login incorrect. Try again or join')
             return render_template('login.html')
         else:
-            # flash('successfully logged in ' + username)
             session['username'] = username
             session['uid'] = row[1]
             session['logged_in'] = True
             session['visits'] = 1
-            return redirect( url_for('greet')) #also just a placeholder for now, should redirect somewhere else
+            return redirect( url_for('homepage')) 
     return render_template('login.html')
 
 
 @app.route('/logout/')
 def logout():
+    #if they are logged in
     if 'username' in session:
         username = session['username']
         session.pop('username')
@@ -92,6 +95,21 @@ def logout():
     else:
         flash('you are not logged in. Please login or join')
         return redirect( url_for('index') )
+
+@app.route('/homepage/', methods = ["GET"])
+def homepage():
+    if request.method == 'GET':
+        # get all study spots 
+        conn = dbi.connect()
+        spots = dbsearch_app.all_spots_lookup(conn)
+        # render them on page
+        return render_template('homepage.html', spots = spots)
+
+@app.route('/addspot/', methods = ["GET"])
+def addspot():
+    if request.method == 'GET':
+        return render_template('addspot.html')
+
 
 @app.route('/greet/', methods=["GET", "POST"])
 def greet():
