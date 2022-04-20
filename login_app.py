@@ -52,7 +52,9 @@ def delete_user(conn, username):
     '''
     deletes user from the database, does not return any value
 
-    currently not implemented!!
+    currently not implemented!! so there is no where on the website
+    where you can delete the user (not even sure if this a 
+    function we will want in the end)
     '''
     curs = dbi.cursor(conn)
     curs.execute('''DELETE FROM userpass WHERE username = %s''',

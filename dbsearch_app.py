@@ -28,8 +28,8 @@ def add_spot(conn, spotname, description, location, amenities, uid):
     conn.commit()
     curs.execute('select last_insert_id()')
     row = curs.fetchone()
-        
-    return (row[0]) 
+
+    return (row['last_insert_id()']) 
 
 
 def all_spots_lookup(conn):

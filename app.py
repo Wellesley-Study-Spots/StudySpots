@@ -103,7 +103,7 @@ def homepage():
         conn = dbi.connect()
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
-        return render_template('homepage.html', spots = spots)
+        return render_template('homepage.html', spots = spots[-2:])
 
 @app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
@@ -114,11 +114,9 @@ def addspot():
         spotname = request.form['spotname']
         description = request.form['description']
         location = request.form['location']
-        amenities = request.form['amenities']
-
-        sessvalue = request.cookies.get('session')
-        print(sessvalue)
-        uid = sessvalue['uid']
+        a = request.form.getlist('amenities')
+        amenities = ','.join(a)
+        uid = session.get('uid')
 
         #Add spot
         conn = dbi.connect()
@@ -132,7 +130,7 @@ def addspot():
 @app.route('/studyspot/<int:sid>',  methods=["GET"])
 def studyspot_lookup(sid):
     conn = dbi.connect()
-    studyspot = dbsearch.spot_lookup(conn, sid)
+    studyspot = dbsearch_app.spot_lookup(conn, sid)
     if not studyspot:
         flash('Study spot does not exist')
         return render_template('base.html')
@@ -142,7 +140,7 @@ def studyspot_lookup(sid):
     location = studyspot['location']
     amenities = studyspot['amenities']
 
-    render_template('spot.html', title=title)
+    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
 
 
 @app.route('/greet/', methods=["GET", "POST"])
@@ -152,7 +150,7 @@ def greet():
         conn = dbi.connect()
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
-        return render_template('homepage.html', spots = spots)
+        return render_template('homepage.html', spots = spots[:2])
     else:
         try:
             username = request.form['username'] # throws error if there's trouble
