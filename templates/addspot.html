@@ -4,16 +4,16 @@
 <div class="addspot_margins">
     <h1>Add a new spot</h1>
 
-    <form method="post" action="{{url_for('formecho')}}">
+    <form method="post" action="{{url_for('addspot')}}">
         <p class="addspot_p">
             <label class="addspot_label">Title:
-                <input required type="text" name="user" size="50" placeholder="name of StudySpot">
+                <input required type="text" name="spotname" size="50" placeholder="name of StudySpot">
             </label>
         </p>
 
         <p class="addspot_p">
             <label class = "addspot_label">Description:
-            <textarea required name="quest" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
+            <textarea required name="description" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
             </label>
         </p>
 

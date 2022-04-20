@@ -105,10 +105,44 @@ def homepage():
         # render them on page
         return render_template('homepage.html', spots = spots)
 
-@app.route('/addspot/', methods = ["GET"])
+@app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
     if request.method == 'GET':
         return render_template('addspot.html')
+    if request.method == 'POST':
+        # Grab spot values
+        spotname = request.form['spotname']
+        description = request.form['description']
+        location = request.form['location']
+        amenities = request.form['amenities']
+
+        sessvalue = request.cookies.get('session')
+        print(sessvalue)
+        uid = sessvalue['uid']
+
+        #Add spot
+        conn = dbi.connect()
+        sid = dbsearch_app.add_spot(conn, spotname, description, location, amenities, uid)
+
+        #Redirect to individual spot page
+        return redirect( url_for('studyspot_lookup', sid=sid)) 
+
+
+#Creates the individual study spot page
+@app.route('/studyspot/<int:sid>',  methods=["GET"])
+def studyspot_lookup(sid):
+    conn = dbi.connect()
+    studyspot = dbsearch.spot_lookup(conn, sid)
+    if not studyspot:
+        flash('Study spot does not exist')
+        return render_template('base.html')
+    
+    title = studyspot['spotname']
+    description = studyspot['description']
+    location = studyspot['location']
+    amenities = studyspot['amenities']
+
+    render_template('spot.html', title=title)
 
 
 @app.route('/greet/', methods=["GET", "POST"])
@@ -131,7 +165,7 @@ def greet():
             flash('form submission error'+str(err))
             return redirect( url_for('index') )
 
-@app.route('/formecho/', methods=['GET','POST'])
+""" @app.route('/formecho/', methods=['GET','POST'])
 def formecho():
     if request.method == 'GET':
         return render_template('form_data.html',
@@ -145,7 +179,7 @@ def formecho():
         # maybe PUT?
         return render_template('form_data.html',
                                method=request.method,
-                               form_data={})
+                               form_data={}) """
 
 @app.route('/testform/')
 def testform():
