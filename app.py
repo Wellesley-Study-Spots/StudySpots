@@ -50,12 +50,14 @@ def signup():
         #if the username already exists
         if row == (False, True, False):
             flash('duplicate key for username {}'.format(username))
-            return redirect( url_for('index'))
+            return render_template('signup.html')
         #if there was some other error
         elif row[0] == False and row[1] == False:
             flash('some other error')
             return render_template('signup.html')
-    return render_template('signup.html')
+        return redirect(url_for('homepage'))
+    else:
+        return render_template('signup.html')
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
@@ -74,6 +76,7 @@ def login():
             flash('login incorrect. Try again or join')
             return render_template('login.html')
         else:
+            #create session
             session['username'] = username
             session['uid'] = row[1]
             session['logged_in'] = True
@@ -86,6 +89,7 @@ def login():
 def logout():
     #if they are logged in
     if 'username' in session:
+        #remove session
         username = session['username']
         session.pop('username')
         session.pop('uid')
@@ -133,7 +137,7 @@ def studyspot_lookup(sid):
     studyspot = dbsearch_app.spot_lookup(conn, sid)
     if not studyspot:
         flash('Study spot does not exist')
-        return render_template('base.html')
+        return redirect(url_for('homepage'))
     
     title = studyspot['spotname']
     description = studyspot['description']
@@ -141,49 +145,6 @@ def studyspot_lookup(sid):
     amenities = studyspot['amenities']
 
     return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
-
-
-@app.route('/greet/', methods=["GET", "POST"])
-def greet():
-    if request.method == 'GET':
-        # get all study spots 
-        conn = dbi.connect()
-        spots = dbsearch_app.all_spots_lookup(conn)
-        # render them on page
-        return render_template('homepage.html', spots = spots[:2])
-    else:
-        try:
-            username = request.form['username'] # throws error if there's trouble
-            flash('form submission successful')
-            return render_template('homepage.html',
-                                   title='Welcome '+username,
-                                   name=username)
-
-        except Exception as err:
-            flash('form submission error'+str(err))
-            return redirect( url_for('index') )
-
-""" @app.route('/formecho/', methods=['GET','POST'])
-def formecho():
-    if request.method == 'GET':
-        return render_template('form_data.html',
-                               method=request.method,
-                               form_data=request.args)
-    elif request.method == 'POST':
-        return render_template('form_data.html',
-                               method=request.method,
-                               form_data=request.form)
-    else:
-        # maybe PUT?
-        return render_template('form_data.html',
-                               method=request.method,
-                               form_data={}) """
-
-@app.route('/testform/')
-def testform():
-    # these forms go to the formecho route
-    return render_template('testform.html')
-
 
 @app.before_first_request
 def init_db():

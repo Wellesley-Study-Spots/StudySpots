@@ -3,11 +3,12 @@ import pymysql
 
 def spot_lookup(conn, sid):
     '''
-    gets a spot in the database 
+    selects a spot in the spot table and returns four values:
+    the spotname, description, location, and amenities
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute(
-        '''select * 
+        '''select spotname, description, location, amenities
         from spot
         where sid = %s''', [sid]
     )
@@ -17,7 +18,7 @@ def spot_lookup(conn, sid):
 
 def add_spot(conn, spotname, description, location, amenities, uid):
     '''
-    adds a spot to a database 
+    inserts a spot to a database and returns the spot's sid
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute(
@@ -34,7 +35,9 @@ def add_spot(conn, spotname, description, location, amenities, uid):
 
 def all_spots_lookup(conn):
     ''' 
-    gets all of the spots in the database
+    selects all of the spots in the database and returns 8 values:
+    sid, author, spotname, description, location, amenities, status,
+    and photo
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute('''select *
