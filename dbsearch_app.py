@@ -45,3 +45,28 @@ def all_spots_lookup(conn):
         order by sid''' )
     spots = curs.fetchall()
     return spots
+
+def search(conn, kind, query):
+    curs = dbi.dict_cursor(conn)
+
+    rows = None
+    if kind == 'location':
+        curs.execute(
+            '''
+            select spotname, location, sid, description
+            from spot
+            where location like %s
+            ''', ["%" + query + "%"]
+        )
+        rows = curs.fetchall()
+        return rows
+    else:
+        curs.execute(
+            '''
+            select spotname, location, sid, description
+            from spot
+            where spotname like %s
+            ''', "%" + query + "%"
+        )
+        rows = curs.fetchall()
+        return rows

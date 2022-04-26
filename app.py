@@ -107,7 +107,7 @@ def homepage():
         conn = dbi.connect()
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
-        return render_template('homepage.html', spots = spots[-2:])
+        return render_template('homepage.html', spots = spots[-3:])
 
 @app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
@@ -145,6 +145,17 @@ def studyspot_lookup(sid):
     amenities = studyspot['amenities']
 
     return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
+
+@app.route('/search/', methods=["GET"])
+def search():
+    conn = dbi.connect()
+
+    kind = request.args.get("kind")
+    query = request.args.get("search")
+
+    rows = dbsearch_app.search(conn, kind, query)
+
+    return render_template('search.html', rows = rows, query = query)
 
 @app.before_first_request
 def init_db():

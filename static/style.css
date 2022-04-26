@@ -161,14 +161,24 @@ input {
 .flex-container {
     margin-left: 100px;
     margin-right: 100px;
-    margin-top: 100px;
+    /* margin-top: 100px; */
     display: flex;
     flex-direction: row;
     justify-content: center;
 
 }
 .spot {
-    margin: 50px;
+    margin: 30px;
+    /* border: border-box; */
+    border: 2px solid transparent;
+    padding: 10px;
+    background-color: #a6a6a6; 
+}
+
+.spot:hover{
+    /* background-color: white; */
+    border: 2px solid black;
+    color: black;
 }
 
 a:link {
@@ -193,13 +203,17 @@ a:hover {
     transition-duration: .3s;
     transition-delay: 0s;
 }
-.name:hover{
+/* .name:hover{
     color: grey;
-}
+} */
 .location {
     font-size: 18px;
     font-weight: lighter;
     margin-top: 6px;
+}
+
+.recent-space{
+    margin-top: 60px;
 }
 
 /* for addspot.html */
@@ -217,3 +231,14 @@ a:hover {
     margin: 30px 100px;
 }
 
+/* for search.html */
+
+.flex-container-search{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.search-description{
+    text-align: left;
+}

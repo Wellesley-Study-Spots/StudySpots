@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class = "main homepage">
+    <h1>StudySpots</h1>
+    <h3>Find and review on/off campus study spots</h3>
+    <div class="search-container">
+        <form class="search-container-form" action="{{url_for('search')}}">
+        <label for="kind">kind</label>
+        <select name="kind" id = "kind" required>
+            <option value="" disabled selected value>choose one</option>
+            <option value="location">location</option>
+            <option value="name">name</option>
+        </select>
+          <input class = "search-container-input" type="text" placeholder="Search.." name="search" required>
+          <button class = "search-container-button" type="submit">Submit</button>
+        </form>
+    </div>
+    <h3>Search Results for: "{{query}}"</h3> 
+    <div class="flex-container-search">
+        {% for s in rows %}
+        <a class = "spot" href="{{url_for('studyspot_lookup', sid = s['sid'])}}">
+            <div>
+            <h4 class='name'>{{s['spotname']}}</h4>
+            <h4 class='location'>{{s['location']}}</h4>
+            <p class = 'search-description'>{{s['description']}}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

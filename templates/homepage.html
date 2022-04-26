@@ -5,8 +5,14 @@
         <h1>StudySpots</h1>
         <h3>Find and review on/off campus study spots</h3>
         <div class="search-container">
-            <form class="search-container-form" action="">
-              <input class = "search-container-input" type="text" placeholder="Search.." name="search">
+            <form class="search-container-form" action="{{url_for('search')}}">
+            <label for="kind">kind</label>
+            <select name="kind" id = "kind" required>
+                <option value="" disabled selected value>choose one</option>
+                <option value="location">location</option>
+                <option value="name">name</option>
+            </select>
+              <input class = "search-container-input" type="text" placeholder="Search.." name="search" required>
               <button class = "search-container-button" type="submit">Submit</button>
             </form>
         </div>
@@ -14,13 +20,20 @@
         <!-- just a placeholder for now, will discuss placement in future iterations -->
         <a class = "main_redirect addspot" href="{{url_for('addspot')}}">Add Spot</a>
 
+        <h3 class="recent-space">Recently Added Spots</h3> 
         <div class="flex-container">
         {% for s in spots %}
-        <div class="spot">
+        <!-- <div class="spot">
             <div class="photo">{{s['photo']}}</div>
             <a href="{{url_for('studyspot_lookup', sid = s['sid'])}}"><h4 class='name'>{{s['spotname']}}</h4></a> 
             <h4 class='location'>{{s['location']}}</h4>
-        </div>
+        </div> -->
+        <a class = "spot" href="{{url_for('studyspot_lookup', sid = s['sid'])}}">
+            <div>
+            <h4 class='name'>{{s['spotname']}}</h4>
+                <h4 class='location'>{{s['location']}}</h4>
+            </div>
+        </a>
         {% endfor %}
         
     </div>
