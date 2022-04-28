@@ -146,9 +146,19 @@ def studyspot_lookup(sid):
         amenities = studyspot['amenities'].split(",")
         
         return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
-    else:
-        return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
 
+@app.route('/review/<int:sid>', methods=["POST"])
+def review(sid):
+    conn = dbi.connect()
+
+    #get information from review form
+    rating = request.form.get("rating")
+    comment = request.form.get("comment")
+    uid = session.get('uid')
+
+    dbsearch_app.insert_review(conn, rating, comment, sid, uid)
+
+    return redirect(url_for('studyspot_lookup'))
 
 @app.route('/search/', methods=["GET"])
 def search():
