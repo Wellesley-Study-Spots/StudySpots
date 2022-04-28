@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-
 <div class='addspot_margins'>
     <h1>{{title}}</h1>
+    
+    <a href="{{url_for('edit', sid = sid)}}">Edit</a>
 
     <h2 class="spot_title">Location</h2>
     <div class='spot_content'>
@@ -21,13 +22,12 @@
           {% for a in amenities %}
               <p class = "spot_amenities_p">{{a}}</p>
           {% endfor %}
-  
       </div>
 
       <h2 class="spot_title">Reviews</h2>
       <div class="review-form">
         <h3>Write a Review</h3>
-        <form class="review-container-form" action="">
+        <form class="review-container-form" action="{{url_for('review', sid = sid)}}", method = "post">
             <label for="rating">Rating</label>
             <select name="rating" id = "rating" required>
                 <option value="" disabled selected value>choose one</option>
@@ -43,6 +43,14 @@
             <input class = "review-container-button" type="submit" value="Submit">
         </form>
       </div>
+
+      {% if rows|length > 0 %}
+        <div>
+            {% for row in rows %}
+                {{row}}
+            {% endfor %}
+        </div>
+      {% endif %}
 </div>
 
 {% endblock %}

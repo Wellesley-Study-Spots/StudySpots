@@ -9,6 +9,7 @@ app = Flask(__name__)
 import cs304dbi as dbi # question - do we want this to be studspot_db as dbi?
 import login_app
 import dbsearch_app
+import dbreview_app
 # import cs304dbi_sqlite3 as dbi
 
 import random
@@ -131,21 +132,22 @@ def addspot():
 
 
 #Creates the individual study spot page
-@app.route('/studyspot/<int:sid>',  methods=["GET", "POST"])
+@app.route('/studyspot/<int:sid>',  methods=["GET"])
 def studyspot_lookup(sid):
     conn = dbi.connect()
-    if request.method == 'GET':
-        studyspot = dbsearch_app.spot_lookup(conn, sid)
-        if not studyspot:
-            flash('Study spot does not exist')
-            return redirect(url_for('homepage'))
-        
-        title = studyspot['spotname']
-        description = studyspot['description']
-        location = studyspot['location']
-        amenities = studyspot['amenities'].split(",")
-        
-        return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
+    studyspot = dbsearch_app.spot_lookup(conn, sid)
+    if not studyspot:
+        flash('Study spot does not exist')
+        return redirect(url_for('homepage'))
+    
+    title = studyspot['spotname']
+    description = studyspot['description']
+    location = studyspot['location']
+    amenities = studyspot['amenities'].split(",")
+
+    rows = dbreview_app.get_reviews(conn, sid)
+
+    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities, sid  = sid, rows = rows)
 
 @app.route('/review/<int:sid>', methods=["POST"])
 def review(sid):
@@ -156,9 +158,17 @@ def review(sid):
     comment = request.form.get("comment")
     uid = session.get('uid')
 
-    dbsearch_app.insert_review(conn, rating, comment, sid, uid)
+    dbreview_app.insert_review(conn, rating, comment, sid, uid)
 
-    return redirect(url_for('studyspot_lookup'))
+    return redirect(url_for('studyspot_lookup', sid = sid))
+
+@app.route('/edit/<int:sid>', methods = ["GET"])
+def edit(sid):
+    return render_template('edit.html')
+
+@app.route('/update/<int:sid>', methods = ["POST"])
+def update(sid):
+    return redirect(url_for('studyspot_lookup', sid = sid))
 
 @app.route('/search/', methods=["GET"])
 def search():

@@ -71,17 +71,3 @@ def search(conn, kind, query):
         rows = curs.fetchall()
         return rows
 
-def insert_review(conn, rating, comment, sid, uid):
-    curs = dbi.dict_cursor(conn)
-
-    curs.execute(
-        '''
-        insert into review(sid, rating, comment, author)
-        values (%s, %s, %s, %s)
-        ''', [sid, rating, comment, uid]
-    )
-
-    conn.commit()
-
-
-
