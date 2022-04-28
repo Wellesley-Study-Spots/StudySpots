@@ -131,20 +131,24 @@ def addspot():
 
 
 #Creates the individual study spot page
-@app.route('/studyspot/<int:sid>',  methods=["GET"])
+@app.route('/studyspot/<int:sid>',  methods=["GET", "POST"])
 def studyspot_lookup(sid):
     conn = dbi.connect()
-    studyspot = dbsearch_app.spot_lookup(conn, sid)
-    if not studyspot:
-        flash('Study spot does not exist')
-        return redirect(url_for('homepage'))
-    
-    title = studyspot['spotname']
-    description = studyspot['description']
-    location = studyspot['location']
-    amenities = studyspot['amenities']
+    if request.method == 'GET':
+        studyspot = dbsearch_app.spot_lookup(conn, sid)
+        if not studyspot:
+            flash('Study spot does not exist')
+            return redirect(url_for('homepage'))
+        
+        title = studyspot['spotname']
+        description = studyspot['description']
+        location = studyspot['location']
+        amenities = studyspot['amenities'].split(",")
+        
+        return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
+    else:
+        return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
 
-    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities)
 
 @app.route('/search/', methods=["GET"])
 def search():

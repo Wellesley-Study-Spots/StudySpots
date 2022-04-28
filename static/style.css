@@ -242,3 +242,44 @@ a:hover {
 .search-description{
     text-align: left;
 }
+
+
+/* for spot.html */
+.spot_content_p{
+    text-align: left;
+    font-weight: 300;
+    padding: 0px;
+    margin: 0px;
+
+}
+
+.spot_description{
+    border: 1px solid black;
+    max-width: 500px;
+    padding: 0px 30px;
+    margin: 40px 0px;
+}
+.spot_description_p{
+    text-align: left;
+}
+
+.spot_amenities{
+    display: flex;
+    justify-content: space-between;
+    max-width: 500px;
+}
+.spot_amenities_p{
+    font-weight: 300;
+    padding: 0px;
+    margin: 0px;
+}
+
+.spot_title{
+    font-weight: 500;
+}
+
+.review-form{
+    border: 1px solid black;
+    padding: 20px;
+
+}

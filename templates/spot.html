@@ -5,15 +5,45 @@
 <div class='addspot_margins'>
     <h1>{{title}}</h1>
 
+    <h2 class="spot_title">Location</h2>
     <div class='spot_content'>
-        <h2>Location</h2>
-            {{location}}
+            <p class="spot_content_p">{{location}}</p>
     </div>
     
-    <div class='spot_content'>
-      <h2>Amenities</h2>
-            {{amenities}}
+    <div class="spot_description">
+        <p class="spot_description_p">
+            {{description}}
+        </p>
     </div>
+
+    <h2 class="spot_title">Amenities</h2>
+    <div class='spot_amenities'>
+          {% for a in amenities %}
+              <p class = "spot_amenities_p">{{a}}</p>
+          {% endfor %}
+  
+      </div>
+
+      <h2 class="spot_title">Reviews</h2>
+      <div class="review-form">
+        <h3>Write a Review</h3>
+        <form class="review-container-form" action="">
+            <label for="kind">Rating</label>
+            <select name="kind" id = "kind" required>
+                <option value="" disabled selected value>choose one</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="4">5</option>
+            </select>
+            <label class = "addspot_label">
+                <textarea required name="description" rows="3" cols="50" placeholder="Write a review"></textarea>
+            </label>              
+            <input class = "review-container-button" type="submit" value="Submit">
+        </form>
+      </div>
+  
 
 </div>
 
