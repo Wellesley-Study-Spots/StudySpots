@@ -162,9 +162,24 @@ def review(sid):
 
     return redirect(url_for('studyspot_lookup', sid = sid))
 
-@app.route('/edit/<int:sid>', methods = ["GET"])
+@app.route('/edit/<int:sid>', methods = ["GET", "POST"])
 def edit(sid):
-    return render_template('edit.html')
+    conn = dbi.connect()
+
+    if request.method == "GET":
+
+        row = dbsearch_app.spot_lookup(conn, sid)
+        return render_template('edit.html', sid = sid, spotname = row['spotname'])
+    else:
+        spotname = request.form['spotname']
+        description = request.form['description']
+        location = request.form['location']
+        a = request.form.getlist('amenities')
+        amenities = ','.join(a)
+
+        dbsearch_app.edit_spot(conn, spotname, description, location, amenities)
+
+        return redirect(url_for('studyspot_lookup', sid = sid))
 
 @app.route('/update/<int:sid>', methods = ["POST"])
 def update(sid):

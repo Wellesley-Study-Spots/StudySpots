@@ -71,3 +71,45 @@ def search(conn, kind, query):
         rows = curs.fetchall()
         return rows
 
+def edit_spot(conn, spotname, description, location, amenities):
+    '''
+    update spot
+    '''
+
+    curs = dbi.dict_cursor(conn)
+
+    if len(spotname) > 0:
+        curs.execute(
+            '''update spot set spotname = %s
+            ''', [spotname]
+        )
+        
+        conn.commit()
+
+    
+    if len(description) > 0:
+        curs.execute(
+            '''update spot set description = %s
+            ''', [description]
+        )
+
+        conn.commit()
+
+
+    if len(location) > 0:
+        curs.execute(
+            '''update spot set location = %s
+            ''', [location]
+        )
+
+        conn.commit()
+
+
+    if len(amenities) > 0:
+        curs.execute(
+            '''update spot set location = %s
+            ''', [amenities]
+        )
+
+        conn.commit()
+        

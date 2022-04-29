@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 
+{% block search %}
+{% endblock %}
+
 {% block main_content %}
 <div class="addspot_margins">
-    <h1>Add a new spot</h1>
+    <h1>Edit: {{spotname}}</h1>
 
-    <form method="post" action="{{url_for('addspot')}}">
+    <form method="post" action="{{url_for('edit', sid = sid)}}">
         <p class="addspot_p">
             <label class="addspot_label">Title:
-                <input required type="text" name="spotname" size="50" placeholder="name of StudySpot">
+                <input type="text" name="spotname" size="50" placeholder="name of StudySpot">
             </label>
         </p>
 
         <p class="addspot_p">
             <label class = "addspot_label">Description:
-            <textarea required name="description" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
+            <textarea name="description" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
             </label>
         </p>
 
@@ -21,19 +24,19 @@
             Select a location
             <div>
                 <label>
-                    <input required type="radio" name="location" value="Wellesley On-Campus">
+                    <input type="radio" name="location" value="Wellesley On-Campus">
                     Wellesley (on-campus)
                 </label>
                 <label>
-                    <input required type="radio" name="location" value="Wellesley Off-Campus">
+                    <input type="radio" name="location" value="Wellesley Off-Campus">
                     Wellesley (off-campus)
                 </label>
                 <label>
-                    <input required type="radio" name="location" value="Boston">
+                    <input type="radio" name="location" value="Boston">
                     Boston
                 </label>
                 <label>
-                    <input required type="radio" name="location" value="Cambridge">
+                    <input type="radio" name="location" value="Cambridge">
                     Cambridge
                 </label>
             </div>

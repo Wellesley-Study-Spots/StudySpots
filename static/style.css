@@ -115,6 +115,7 @@ input {
 /* for homepage.html */ 
 .homepage {
     margin-top: 30px;
+    margin-bottom: 0px;
     text-align: center;
 }
 
