@@ -170,6 +170,7 @@ def edit(sid):
 
         row = dbsearch_app.spot_lookup(conn, sid)
         return render_template('edit.html', sid = sid, spotname = row['spotname'])
+        
     else:
         spotname = request.form['spotname']
         description = request.form['description']
@@ -177,7 +178,7 @@ def edit(sid):
         a = request.form.getlist('amenities')
         amenities = ','.join(a)
 
-        dbsearch_app.edit_spot(conn, spotname, description, location, amenities)
+        dbsearch_app.edit_spot(conn, spotname, description, location, amenities, sid)
 
         return redirect(url_for('studyspot_lookup', sid = sid))
 

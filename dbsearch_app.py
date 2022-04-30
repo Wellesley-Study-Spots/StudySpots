@@ -71,7 +71,7 @@ def search(conn, kind, query):
         rows = curs.fetchall()
         return rows
 
-def edit_spot(conn, spotname, description, location, amenities):
+def edit_spot(conn, spotname, description, location, amenities, sid):
     '''
     update spot
     '''
@@ -80,8 +80,8 @@ def edit_spot(conn, spotname, description, location, amenities):
 
     if len(spotname) > 0:
         curs.execute(
-            '''update spot set spotname = %s
-            ''', [spotname]
+            '''update spot set spotname = %s where sid=%s
+            ''', [spotname, sid]
         )
         
         conn.commit()
@@ -89,8 +89,8 @@ def edit_spot(conn, spotname, description, location, amenities):
     
     if len(description) > 0:
         curs.execute(
-            '''update spot set description = %s
-            ''', [description]
+            '''update spot set description = %s where sid=%s
+            ''', [description, sid]
         )
 
         conn.commit()
@@ -98,8 +98,8 @@ def edit_spot(conn, spotname, description, location, amenities):
 
     if len(location) > 0:
         curs.execute(
-            '''update spot set location = %s
-            ''', [location]
+            '''update spot set location = %s where sid=%s
+            ''', [location, sid]
         )
 
         conn.commit()
@@ -107,8 +107,8 @@ def edit_spot(conn, spotname, description, location, amenities):
 
     if len(amenities) > 0:
         curs.execute(
-            '''update spot set location = %s
-            ''', [amenities]
+            '''update spot set location = %s where sid=%s
+            ''', [amenities, sid]
         )
 
         conn.commit()
