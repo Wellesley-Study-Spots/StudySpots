@@ -10,23 +10,34 @@
     
     <a href="{{url_for('edit', sid = sid)}}">Edit</a>
 
-    <h2 class="spot_title">Location</h2>
-    <div class='spot_content'>
-            <p class="spot_content_p">{{location}}</p>
-    </div>
+    <div class="spot-container">
     
-    <div class="spot_description">
-        <p class="spot_description_p">
-            {{description}}
-        </p>
+    <div class="spot-container-row">
+        <div class="spot_description">
+            <p class="spot_description_p">
+                {{description}}
+            </p>
+        </div>
+
+    <h2 class="spot_title">Location</h2>
+        <div class='spot_content'>
+            <p class="spot_content_p">{{location}}</p>
+            <h2 class="spot_title">Amenities</h2>
+                <div class='spot_amenities'>
+                    {% for a in amenities %}
+                     <p class = "spot_amenities_p">{{a}}</p>
+                     {% endfor %}
+                </div>
+
+     </div>
     </div>
 
-    <h2 class="spot_title">Amenities</h2>
-    <div class='spot_amenities'>
-          {% for a in amenities %}
-              <p class = "spot_amenities_p">{{a}}</p>
-          {% endfor %}
-      </div>
+    <div class="spot-container-row">
+    <div>photo placeholder</div>
+    </div>
+
+
+    </div>
 
       <h2 class="spot_title">Reviews</h2>
       <div class="review-form">
@@ -51,7 +62,11 @@
       {% if rows|length > 0 %}
         <div>
             {% for row in rows %}
-                {{row}}
+            <div class="reviews-container">
+                <h3>{{row['username']}}</h3>
+                <div class="review-row"><b>Rating: </b>{{row['rating']}}/5</div>
+                <div class="review-row review-comment">{{row['comment']}}</div>
+            </div>
             {% endfor %}
         </div>
       {% endif %}
