@@ -107,7 +107,7 @@ def edit_spot(conn, spotname, description, location, amenities, sid):
 
     if len(amenities) > 0:
         curs.execute(
-            '''update spot set location = %s where sid=%s
+            '''update spot set amenities = %s where sid=%s
             ''', [amenities, sid]
         )
 

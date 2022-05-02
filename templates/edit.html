@@ -10,13 +10,13 @@
     <form method="post" action="{{url_for('edit', sid = sid)}}">
         <p class="addspot_p">
             <label class="addspot_label">Title:
-                <input type="text" name="spotname" size="50" placeholder="name of StudySpot">
+                <input type="text" name="spotname" size="50" value="{{spotname}}">
             </label>
         </p>
 
         <p class="addspot_p">
             <label class = "addspot_label">Description:
-            <textarea name="description" rows="3" cols="50" placeholder="Give your StudySpot a description"></textarea>
+            <textarea name="description" rows="3" cols="50">{{description}}</textarea>
             </label>
         </p>
 
@@ -24,45 +24,81 @@
             Select a location
             <div>
                 <label>
+                    {% if 'Wellesley On-Campus' in location %}
+                    <input type="radio" name="location" value="Wellesley On-Campus" checked="checked">
+                    {% else %}
                     <input type="radio" name="location" value="Wellesley On-Campus">
+                    {% endif %}
                     Wellesley (on-campus)
                 </label>
                 <label>
+                    {% if 'Wellesley Off-Campus' in location %}
+                    <input type="radio" name="location" value="Wellesley Off-Campus" checked="checked">
+                    {% else %}
                     <input type="radio" name="location" value="Wellesley Off-Campus">
+                    {% endif %}
                     Wellesley (off-campus)
                 </label>
                 <label>
+                    {% if 'Boston' in location %}
+                    <input type="radio" name="location" value="Boston" checked="checked">
+                    {% else %}
                     <input type="radio" name="location" value="Boston">
+                    {% endif %}
                     Boston
                 </label>
                 <label>
+                    {% if 'Cambridge' in location %}
+                    <input type="radio" name="location" value="Cambridge" checked="checked">
+                    {% else %}
                     <input type="radio" name="location" value="Cambridge">
+                    {% endif %}
                     Cambridge
                 </label>
             </div>
         </div>
 
         <div>
-            Select amenities
+            Select amenities 
             <div>
                 <label>
+                    {% if 'Bathrooms' in amenities %}
+                    <input type="checkbox" name="amenities" value="Bathrooms" checked="checked">
+                    {% else %}
                     <input type="checkbox" name="amenities" value="Bathrooms">
+                    {% endif %}
                     Bathroom access
                 </label>
                 <label>
+                    {% if 'Drinks' in amenities %}
+                    <input type="checkbox" name="amenities" value="Drinks" checked="checked">
+                    {% else %}
                     <input type="checkbox" name="amenities" value="Drinks">
+                    {% endif %}
                     Drinks options
                 </label>
                 <label>
+                    {% if 'Food' in amenities %}
+                    <input type="checkbox" name="amenities" value="Food" checked="checked">
+                    {% else %}
                     <input type="checkbox" name="amenities" value="Food">
+                    {% endif %}
                     Food options
                 </label>
                 <label>
+                    {% if 'Outlets' in amenities %}
+                    <input type="checkbox" name="amenities" value="Outlets" checked="checked">
+                    {% else %}
                     <input type="checkbox" name="amenities" value="Outlets">
+                    {% endif %}
                     Outlets available
                 </label>
                 <label>
+                    {% if 'Wifi' in amenities %}
+                    <input type="checkbox" name="amenities" value="Wifi" checked="checked">
+                    {% else %}
                     <input type="checkbox" name="amenities" value="Wifi">
+                    {% endif %}
                     Free Wifi available
                 </label>
             </div>

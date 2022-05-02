@@ -6,7 +6,7 @@ app = Flask(__name__)
 # one or the other of these. Defaults to MySQL (PyMySQL)
 # change comment characters to switch to SQLite
 
-import cs304dbi as dbi # question - do we want this to be studspot_db as dbi?
+import cs304dbi as dbi 
 import login_app
 import dbsearch_app
 import dbreview_app
@@ -169,9 +169,15 @@ def edit(sid):
     if request.method == "GET":
 
         row = dbsearch_app.spot_lookup(conn, sid)
-        return render_template('edit.html', sid = sid, spotname = row['spotname'])
+        old_description = row['description']
+        old_location = row['location']
+        old_a = row['amenities']
+
+        return render_template('edit.html', sid = sid, spotname = row['spotname'], 
+        description = old_description, location = old_location, amenities=old_a)
         
     else:
+        print(request.form)
         spotname = request.form['spotname']
         description = request.form['description']
         location = request.form['location']
