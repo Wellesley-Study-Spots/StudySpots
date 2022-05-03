@@ -26,16 +26,12 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
 @app.route('/')
 def index():
-    #gets session value
-    sessvalue = request.cookies.get('session')
-
     #if the user is logged in, then redirect the user so they do not have to login again
     if 'logged_in' in session:
-        return redirect(url_for("homepage.html"))
+        return redirect(url_for("homepage"))
     #if the user is not logged in, have them either sign up or login
     else:
         return render_template('main.html')
-
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -56,6 +52,12 @@ def signup():
         elif row[0] == False and row[1] == False:
             flash('some other error')
             return render_template('signup.html')
+
+        #create session
+        session['username'] = username
+        session['uid'] = row[0]
+        session['logged_in'] = True
+        session['visits'] = 1
         return redirect(url_for('homepage'))
     else:
         return render_template('signup.html')
@@ -103,6 +105,10 @@ def logout():
 
 @app.route('/homepage/', methods = ["GET"])
 def homepage():
+    #if the user is not logged in, then redirect the user back to the index
+    if 'logged_in' not in session:
+        return redirect(url_for("index"))
+
     if request.method == 'GET':
         # get all study spots 
         conn = dbi.connect()
@@ -144,10 +150,11 @@ def studyspot_lookup(sid):
     description = studyspot['description']
     location = studyspot['location']
     amenities = studyspot['amenities'].split(",")
+    uid = session.get('uid')
 
-    rows = dbreview_app.get_reviews(conn, sid)
+    reviews = dbreview_app.get_reviews(conn, sid)
 
-    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities, sid  = sid, rows = rows)
+    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities, sid  = sid, reviews = reviews, uid = uid)
 
 @app.route('/review/<int:sid>', methods=["POST"])
 def review(sid):
@@ -162,22 +169,22 @@ def review(sid):
 
     return redirect(url_for('studyspot_lookup', sid = sid))
 
-@app.route('/edit/<int:sid>', methods = ["GET", "POST"])
-def edit(sid):
+@app.route('/edit-spot/<int:sid>', methods = ["GET", "POST"])
+def edit_spot(sid):
     conn = dbi.connect()
 
     if request.method == "GET":
 
+        #prefill form
         row = dbsearch_app.spot_lookup(conn, sid)
         old_description = row['description']
         old_location = row['location']
         old_a = row['amenities']
 
-        return render_template('edit.html', sid = sid, spotname = row['spotname'], 
+        return render_template('edit_spot.html', sid = sid, spotname = row['spotname'], 
         description = old_description, location = old_location, amenities=old_a)
         
     else:
-        print(request.form)
         spotname = request.form['spotname']
         description = request.form['description']
         location = request.form['location']
@@ -188,9 +195,34 @@ def edit(sid):
 
         return redirect(url_for('studyspot_lookup', sid = sid))
 
-@app.route('/update/<int:sid>', methods = ["POST"])
-def update(sid):
+# @app.route('/edit-review/<int:rid>', methods = ["GET", "POST"])
+# def edit_review(rid):
+#     conn = dbi.connect()
+
+#     if request.method == "GET":
+#         return render_template('edit_review.html')
+#     else:
+#         return redirect(url_for('studyspot_lookup', sid = sid))
+    
+@app.route('/delete-spot/<int:sid>', methods = ["POST"])
+def delete_spot(sid):
+    conn = dbi.connect()
+
+    dbsearch_app.delete_spot(conn, sid)
+    flash('successfully deleted spot')
+    return redirect(url_for('homepage'))
+
+@app.route('/delete-review/<int:rid>', methods = ["POST"])
+def delete_review(rid):
+    conn = dbi.connect()
+
+    sid = dbreview_app.delete_review(conn, rid)
+
     return redirect(url_for('studyspot_lookup', sid = sid))
+
+# @app.route('/update/<int:sid>', methods = ["POST"])
+# def update(sid):
+#     return redirect(url_for('studyspot_lookup', sid = sid))
 
 @app.route('/search/', methods=["GET"])
 def search():

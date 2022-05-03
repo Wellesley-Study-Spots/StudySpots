@@ -8,7 +8,13 @@
 <div class='addspot_margins'>
     <h1>{{title}}</h1>
     
-    <a href="{{url_for('edit', sid = sid)}}">Edit</a>
+    <a href="{{url_for('edit_spot', sid = sid)}}">Edit</a>
+
+
+
+    <form action = "{{url_for('delete_spot', sid = sid)}}" method = "POST">
+        <input class = "submit" type = "submit" name = "submit" value = "Delete">
+    </form>    
 
     <div class="spot-container">
     
@@ -55,13 +61,18 @@
         </form>
       </div>
 
-      {% if rows|length > 0 %}
+      {% if reviews|length > 0 %}
         <div>
-            {% for row in rows %}
+            {% for review in reviews %}
             <div class="reviews-container">
-                <h3>{{row['username']}}</h3>
-                <div class="review-row"><b>Rating: </b>{{row['rating']}}/5</div>
-                <div class="review-row review-comment">{{row['comment']}}</div>
+                <h3>{{review['username']}}</h3>
+                <div class="review-row"><b>Rating: </b>{{review['rating']}}/5</div>
+                <div class="review-row review-comment">{{review['comment']}}</div>
+                {% if review['author'] == uid %}
+                    <form action = "{{url_for('delete_review', rid = review['rid'])}}" method = "POST">
+                        <input class = "submit" type = "submit" name = "submit" value = "Delete">
+                    </form>    
+                {% endif %}
             </div>
             {% endfor %}
         </div>

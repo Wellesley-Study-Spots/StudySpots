@@ -7,7 +7,7 @@
 <div class="addspot_margins">
     <h1>Edit: {{spotname}}</h1>
 
-    <form method="post" action="{{url_for('edit', sid = sid)}}">
+    <form method="post" action="{{url_for('edit_spot', sid = sid)}}">
         <p class="addspot_p">
             <label class="addspot_label">Title:
                 <input type="text" name="spotname" size="50" value="{{spotname}}">
@@ -103,6 +103,38 @@
                 </label>
             </div>
         </div>
+
+        <!-- <div>
+            NOTE: honestly, the more i think about this, the more i feel like it's unneccessary to have especially if we can delete spots now
+            
+            Spot Status
+            <div>
+                <label>
+                    {% if 'Wellesley On-Campus' in location %}
+                    <input type="radio" name="location" value="Open" checked="checked">
+                    {% else %}
+                    <input type="radio" name="location" value="Open">
+                    {% endif %}
+                    Open
+                </label>
+                <label>
+                    {% if 'Wellesley Off-Campus' in location %}
+                    <input type="radio" name="location" value="Temporaily Closed" checked="checked">
+                    {% else %}
+                    <input type="radio" name="location" value="Temporaily Closed">
+                    {% endif %}
+                    Temporaily Closed
+                </label>
+                <label>
+                    {% if 'Cambridge' in location %}
+                    <input type="radio" name="location" value="Permanetly Closed" checked="checked">
+                    {% else %}
+                    <input type="radio" name="location" value="Permanetly Closed">
+                    {% endif %}
+                    Permanetly Closed
+                </label>
+            </div>
+        </div> -->
 
         <!-- <p>
             <label>Pic: <input type="file" name="pic">

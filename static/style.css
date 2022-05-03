@@ -8,7 +8,7 @@ HTML {
     /* --font-family: Verdana; */
     --font-family: 'Inter', sans-serif;    
     font-family: var(--font-family);
-    background-color: #E5E5E5;
+    background-color: #ddc9c1;
 }
 
 /* For flashed messages; make them stand out using red and italics */

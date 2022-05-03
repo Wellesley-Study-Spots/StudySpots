@@ -1,5 +1,7 @@
 import cs304dbi as dbi
 import pymysql
+import dbreview_app
+
 
 def spot_lookup(conn, sid):
     '''
@@ -73,14 +75,15 @@ def search(conn, kind, query):
 
 def edit_spot(conn, spotname, description, location, amenities, sid):
     '''
-    update spot
+    updates a spot in the database and commits the changes to the database
     '''
 
     curs = dbi.dict_cursor(conn)
 
     if len(spotname) > 0:
         curs.execute(
-            '''update spot set spotname = %s where sid=%s
+            '''
+            update spot set spotname = %s where sid=%s
             ''', [spotname, sid]
         )
         
@@ -89,7 +92,8 @@ def edit_spot(conn, spotname, description, location, amenities, sid):
     
     if len(description) > 0:
         curs.execute(
-            '''update spot set description = %s where sid=%s
+            '''
+            update spot set description = %s where sid=%s
             ''', [description, sid]
         )
 
@@ -98,7 +102,8 @@ def edit_spot(conn, spotname, description, location, amenities, sid):
 
     if len(location) > 0:
         curs.execute(
-            '''update spot set location = %s where sid=%s
+            '''
+            update spot set location = %s where sid=%s
             ''', [location, sid]
         )
 
@@ -107,9 +112,31 @@ def edit_spot(conn, spotname, description, location, amenities, sid):
 
     if len(amenities) > 0:
         curs.execute(
-            '''update spot set amenities = %s where sid=%s
+            '''
+            update spot set amenities = %s where sid=%s
             ''', [amenities, sid]
         )
 
         conn.commit()
-        
+
+def delete_spot(conn, sid):
+    '''
+    deletes a spot in the spot table and 
+    commits the changes in the database
+    '''
+
+    curs = dbi.dict_cursor(conn)
+
+    dbreview_app.delete_all_reviews(conn, sid)
+
+    curs.execute(
+        '''
+        delete from spot
+        where sid = %s
+        ''', [sid]
+    )
+
+    conn.commit()
+
+
+
