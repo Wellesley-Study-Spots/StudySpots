@@ -12,15 +12,9 @@
         <h1>StudySpots</h1>
         <form method = "POST" action ="{{url_for('signup')}}" class = "form">
             <p>
-                <label> 
-                    <input type = "email"  name = "email" value="{{email}}" placeholder="email" required><br/>
-                </label>
-                <label>
-                    <input type = "text"  name = "username" value="{{username}}" placeholder="username" required><br/>
-                </label>
-                <label>
-                    <input type = "password"  name = "password" value="{{password}}" placeholder="password" required><br/>
-                </label>
+                <input type = "email"  name = "email" value="{{email}}" placeholder="email" required aria-label="Email"><br/>
+                <input type = "text"  name = "username" value="{{username}}" placeholder="username" required aria-label="Username"><br/>
+                <input type = "password"  name = "password" value="{{password}}" placeholder="password" required aria-label="Password"><br/>
                 <input class = "submit" type = "submit" name = "submit" value = "sign up">
             </p>
         </form>    
