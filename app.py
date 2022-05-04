@@ -220,10 +220,6 @@ def delete_review(rid):
 
     return redirect(url_for('studyspot_lookup', sid = sid))
 
-# @app.route('/update/<int:sid>', methods = ["POST"])
-# def update(sid):
-#     return redirect(url_for('studyspot_lookup', sid = sid))
-
 @app.route('/search/', methods=["GET"])
 def search():
     conn = dbi.connect()
