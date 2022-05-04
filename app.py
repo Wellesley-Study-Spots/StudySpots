@@ -31,7 +31,7 @@ def index():
         return redirect(url_for("homepage"))
     #if the user is not logged in, have them either sign up or login
     else:
-        return render_template('main.html')
+        return render_template('main.html', page_title="StudySpots")
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -77,7 +77,7 @@ def login():
         #if the login information was incorrect
         if row == (False, False):
             flash('login incorrect. Try again or join')
-            return render_template('login.html')
+            return render_template('login.html', page_title="Login")
         else:
             #create session
             session['username'] = username
@@ -85,7 +85,7 @@ def login():
             session['logged_in'] = True
             session['visits'] = 1
             return redirect( url_for('homepage')) 
-    return render_template('login.html')
+    return render_template('login.html', page_title="Login")
 
 
 @app.route('/logout/')
@@ -114,7 +114,7 @@ def homepage():
         conn = dbi.connect()
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
-        return render_template('homepage.html', spots = spots[-3:])
+        return render_template('homepage.html', spots = spots[-3:], page_title="StudySpots")
 
 @app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
@@ -233,7 +233,7 @@ def search():
 
     rows = dbsearch_app.search(conn, kind, query)
 
-    return render_template('search.html', rows = rows, query = query)
+    return render_template('search.html', rows = rows, query = query, page_title="Search results")
 
 @app.before_first_request
 def init_db():
