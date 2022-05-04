@@ -2,7 +2,7 @@
 */
 
 HTML {
-    --color-header: #00000;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
+    --color-header: #1C2321;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
     --color-hilite: #00000;  /* was red, but this avoids WAVE contrast errors */ 
     --color-focus: #00000;
     /* --font-family: Verdana; */
@@ -16,6 +16,16 @@ HTML {
 #messages {
     color: var(--color-hilite);
     font-style: italic;
+}
+
+.flex-kind{
+    display:flex;
+
+}
+
+.kind-row{
+    margin:5px;
+
 }
 
 .main {
@@ -52,10 +62,10 @@ h3.recent-space {
 }
 
 .main_redirect {
-    color: black;
+    color: #3b3f47;
     margin: 20px 50px;
     padding: 10px 20px;
-    border: 1px solid #000000;
+    border: 1px solid #3b3f47;
     box-sizing: border-box;
     text-decoration: none;
     transition-property: background-color;
@@ -64,7 +74,7 @@ h3.recent-space {
 }
 
 a:hover {
-    background-color: #a6a6a6;
+    background-color: #E4DFDA;
   }
 
 p {
@@ -83,8 +93,8 @@ input {
 
 .submit {
     margin-top: 20px;
-    background-color: #c7c7c7;
-    border: 1px solid #c7c7c7;
+    background-color: #1C2321;
+    border: 1px solid #DDC9C1;
     text-shadow: none;
     transition-property: background-color;
     transition-duration: .3s;
@@ -92,7 +102,7 @@ input {
 }
 
 .submit:hover {
-    background-color: #a6a6a6
+    background-color: #5E6572
 }
 
 textarea {
@@ -140,7 +150,7 @@ div, label {
 .search-container-form{
     margin: auto;
     max-width: 700px;
-    display: flex;
+    
 }
 
 .search-container-input{
@@ -158,8 +168,8 @@ div, label {
     float: left;
     width: 20%;
     padding: 10px;
-    background: grey;
-    color: white;
+    background: #F2C47B;
+    color: #333734;
     font-size: 17px;
     border: 1px solid grey;
       border-left-color: grey;
@@ -171,6 +181,8 @@ div, label {
 
 .addspot {
     margin: 30px auto 0px;
+    background-color:#3b3f47 !important;
+    color: #DDC9C1 !important;
 }
 
 .flex-container {
@@ -186,36 +198,45 @@ div, label {
     /* border: border-box; */
     border: 2px solid transparent;
     padding: 10px;
-    background-color: #a6a6a6; 
+    background-color: #bfada6; 
     flex: 1 1 0px;
 }
 
 .spot:hover{
     /* background-color: white; */
-    border: 2px solid black;
-    color: black;
+    border: 2px solid transparent;
+    color:#1C3360;
 }
 
 a:link {
     font-style: normal;
     text-decoration: none;
-    color: black;
+    color:#5E6572;
+}
+
+.light-text{
+    color: #DDC9C1;
+}
+
+.flex-button-container{
+    display: flex;
+    align-items: center;
 }
 
 #edit {
-    position: absolute;
-    background-color: #c7c7c7;
-    border: 1px solid #c7c7c7;
+    background-color: #544541;
+    border: 1px solid #DDC9C1;
     margin: 20px 0px 10px 10px;
     padding: 10px 20px;
-    left: 200px;
     font-size: 13px;
     max-height: 37.5;
+    color: #DDC9C1;
 }
 
 #edit:hover {
-    border: 2px solid black;
-    color: black;
+    background-color: #5E6572;
+    border: 2px solid#DDC9C1;
+    color:#DDC9C1;
 }
 
 a:visited {
@@ -234,6 +255,7 @@ a:hover {
     transition-property: color;
     transition-duration: .3s;
     transition-delay: 0s;
+    color: #1C2321;
 }
 /* .name:hover{
     color: grey;
@@ -242,6 +264,7 @@ a:hover {
     font-size: 18px;
     font-weight: lighter;
     margin-top: 6px;
+    color: #3b3f47;
 }
 
 .recent-space{
@@ -296,7 +319,7 @@ a:hover {
 }
 
 .spot_description{
-    border: 1px solid black;
+    border: 1px solid #1C2321;
     max-width: 500px;
     padding: 0px 30px;
     margin-top:10px;
@@ -305,6 +328,7 @@ a:hover {
 }
 .spot_description_p{
     text-align: left;
+    color: #1C2321;
 }
 
 .spot_amenities{
@@ -324,19 +348,20 @@ a:hover {
 }
 
 .review-form{
-    border: 1px solid black;
+    border: 1px solid #5E6572;
     padding: 20px;
     max-width: 500px;
     margin: 15px;
     height: 250px;
     line-height: 2;
+    color:#1C2321;
 }
 .review-container-button{
     margin-right: 100px;
 }
 
 .reviews-container{
-    border: 1px solid black;
+    border: 1px solid #5E6572;
     padding: 20px;
     margin: 15px;
     max-width: 500px;
@@ -345,20 +370,23 @@ a:hover {
 }
 
 p.spot_amenities_p {
-    background-color: #c7c7c7;
-    border: 1px solid #c7c7c7;
+    background-color: #bfada6;
+    border: 1px solid #bfada6;
     margin: 10px;
     padding: 10px 20px;
+    color: #1C2321
 }
 
 .review-row{
     margin-top: 5px;
     margin-bottom: 5px;
     line-height: 1.5;
+    color: #1C2321;
 }
 
 .review-comment {
     margin-top:10px;
     font-weight: lighter;
     line-height: 1.5;
+    color: #1C2321;
 }
