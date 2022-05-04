@@ -49,6 +49,17 @@ def all_spots_lookup(conn):
     return spots
 
 def search(conn, kind, query):
+    '''
+    select spots in the database depending on the kind and the query.
+    
+    if location is selected, it will return
+    a list of dictionaries that contain the following values:
+    spotname, location, sid, and description
+
+    if name is selected, it will return a list of dictionaries
+    that contain the following values: spotname, location, sid,
+    and description
+    '''
     curs = dbi.dict_cursor(conn)
 
     rows = None
