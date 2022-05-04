@@ -283,9 +283,15 @@ a:hover {
     flex-direction: column;
     max-width: 500px;
 }
+fieldset {
+    border-color: transparent !important;
 
+}
 .addspot_margins{
     margin: 30px 100px;
+}
+.margin-left-60{
+    margin-left: 60px !important;
 }
 
 /* for search.html */

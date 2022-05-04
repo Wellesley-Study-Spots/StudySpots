@@ -119,7 +119,7 @@ def homepage():
 @app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
     if request.method == 'GET':
-        return render_template('addspot.html')
+        return render_template('addspot.html', page_title="Add a New Spot")
     if request.method == 'POST':
         # Grab spot values
         spotname = request.form['spotname']
@@ -154,7 +154,7 @@ def studyspot_lookup(sid):
 
     reviews = dbreview_app.get_reviews(conn, sid)
 
-    return render_template('spot.html', title=title, description = description, location = location, amenities  = amenities, sid  = sid, reviews = reviews, uid = uid)
+    return render_template('spot.html', page_title=title, title=title, description = description, location = location, amenities  = amenities, sid  = sid, reviews = reviews, uid = uid)
 
 @app.route('/review/<int:sid>', methods=["POST"])
 def review(sid):
