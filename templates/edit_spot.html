@@ -22,8 +22,9 @@
 
         <div>
             <fieldset>
-            <legend>
-            Select a location</legend>
+                <legend>
+                    Select a location
+                </legend>
             <div>
                 <label>
                     {% if 'Wellesley On-Campus' in location %}
@@ -58,13 +59,14 @@
                     Cambridge
                 </label>
             </div>
-        </fieldset>
+            </fieldset>
         </div>
 
         <div>
             <fieldset>
                 <legend>
-            Select amenities </legend>
+                    Select amenities 
+                </legend>
             <div>
                 <label>
                     {% if 'Bathrooms' in amenities %}
@@ -106,49 +108,10 @@
                     {% endif %}
                     Free Wifi available
                 </label>
-            </div>
+                </div>
             </fieldset>
         </div>
-
-        <!-- <div>
-            NOTE: honestly, the more i think about this, the more i feel like it's unneccessary to have especially if we can delete spots now
-            
-            Spot Status
-            <div>
-                <label>
-                    {% if 'Wellesley On-Campus' in location %}
-                    <input type="radio" name="location" value="Open" checked="checked">
-                    {% else %}
-                    <input type="radio" name="location" value="Open">
-                    {% endif %}
-                    Open
-                </label>
-                <label>
-                    {% if 'Wellesley Off-Campus' in location %}
-                    <input type="radio" name="location" value="Temporaily Closed" checked="checked">
-                    {% else %}
-                    <input type="radio" name="location" value="Temporaily Closed">
-                    {% endif %}
-                    Temporaily Closed
-                </label>
-                <label>
-                    {% if 'Cambridge' in location %}
-                    <input type="radio" name="location" value="Permanetly Closed" checked="checked">
-                    {% else %}
-                    <input type="radio" name="location" value="Permanetly Closed">
-                    {% endif %}
-                    Permanetly Closed
-                </label>
-            </div>
-        </div> -->
-
-        <!-- <p>
-            <label>Pic: <input type="file" name="pic">
-            </label>
-        </p>
-        <p> -->
-            <input class = "main_redirect" type="submit" value="Submit">
-        </p>
+        <input class = "main_redirect" type="submit" value="Submit">
     </form>
 </div>
 
