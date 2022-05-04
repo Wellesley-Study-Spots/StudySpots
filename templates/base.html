@@ -37,27 +37,23 @@
   <h3>Find and review on/off campus study spots</h3>
   <div class="search-container">
       <form class="search-container-form" action="{{url_for('search')}}">
-        <label for="kind">
+        <label for="kind">Kind</label>
           <div class="flex-kind">
-
-          <div class="kind-row">kind</div>
-          
-          <div class="kind-row">
-              <select name="kind" id = "kind" required>
-              <option value="" disabled selected value>
-              choose one
-              </option>
-              <option value="location">location</option>
-              <option value="name">name</option>
+            <div class="kind-row">
+                <select name="kind" id = "kind" required>
+                <option disabled selected value>
+                choose one
+                </option>
+                <option value="location">location</option>
+                <option value="name">name</option>
+                </select>
             </div>
-
-        </div>
-      </select>
-    </label>
-
-    </div>
-        <input class = "search-container-input" type="text" placeholder="Search.." name="search" required>
+          </div>
+        <div class = "search-div">
+        <label for ="search">Search</label>
+        <input id = "search" class = "search-container-input" type="text" placeholder="Search.." name="search" required>
         <button class = "search-container-button" type="submit">Submit</button>
+        </div>
       </form>
   </div>
 </div>
