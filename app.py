@@ -182,7 +182,7 @@ def edit_spot(sid):
         old_a = row['amenities']
 
         return render_template('edit_spot.html', sid = sid, spotname = row['spotname'], 
-        description = old_description, location = old_location, amenities=old_a)
+        description = old_description, location = old_location, amenities=old_a, page_title="Edit spot")
         
     else:
         spotname = request.form['spotname']

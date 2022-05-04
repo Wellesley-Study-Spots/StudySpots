@@ -21,7 +21,9 @@
         </p>
 
         <div>
-            Select a location
+            <fieldset>
+            <legend>
+            Select a location</legend>
             <div>
                 <label>
                     {% if 'Wellesley On-Campus' in location %}
@@ -56,10 +58,13 @@
                     Cambridge
                 </label>
             </div>
+        </fieldset>
         </div>
 
         <div>
-            Select amenities 
+            <fieldset>
+                <legend>
+            Select amenities </legend>
             <div>
                 <label>
                     {% if 'Bathrooms' in amenities %}
@@ -102,6 +107,7 @@
                     Free Wifi available
                 </label>
             </div>
+            </fieldset>
         </div>
 
         <!-- <div>
