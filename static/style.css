@@ -3,7 +3,7 @@
 
 HTML {
     --color-header: #1C2321;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
-    --color-hilite: #00000;  /* was red, but this avoids WAVE contrast errors */ 
+    --color-hilite: #000000;  /* was red, but this avoids WAVE contrast errors */ 
     --color-focus: #00000;
     /* --font-family: Verdana; */
     --font-family: 'Inter', sans-serif;    
@@ -237,7 +237,7 @@ a:link {
     margin: 20px 0px 10px 10px;
     padding: 10px 20px;
     font-size: 13px;
-    max-height: 37.5;
+    max-height: 37.5px;
     color: #DDC9C1;
 }
 
