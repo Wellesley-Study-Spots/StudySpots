@@ -60,7 +60,7 @@ def signup():
         session['visits'] = 1
         return redirect(url_for('homepage'))
     else:
-        return render_template('signup.html')
+        return render_template('signup.html', page_title="Signup")
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
