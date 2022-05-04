@@ -37,12 +37,11 @@ def add_spot(conn, spotname, description, location, amenities, uid):
 
 def all_spots_lookup(conn):
     ''' 
-    selects all of the spots in the database and returns 8 values:
-    sid, author, spotname, description, location, amenities, status,
-    and photo
+    selects all of the spots in the database and returns 3 values:
+    spotname, location, sid
     '''
     curs = dbi.dict_cursor(conn)
-    curs.execute('''select *
+    curs.execute('''select spotname, location, sid
         from spot
         order by sid''' )
     spots = curs.fetchall()
