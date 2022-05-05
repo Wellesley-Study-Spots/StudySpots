@@ -47,16 +47,3 @@ success and returns the uid as the second value on success. Otherwise, False, Fa
     else:
         # password incorrect
         return (False, False)
-
-def delete_user(conn, username):
-    '''
-    deletes user from the database, does not return any value
-
-    currently not implemented!! so there is no where on the website
-    where you can delete the user (not even sure if this a 
-    function we will want in the end)
-    '''
-    curs = dbi.cursor(conn)
-    curs.execute('''DELETE FROM userpass WHERE username = %s''',
-                 [username])
-    conn.commit()
