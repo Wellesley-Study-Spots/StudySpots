@@ -38,8 +38,8 @@ def add_spot(conn, spotname, description, location, amenities, uid, filename):
 
 def all_spots_lookup(conn):
     ''' 
-    selects all of the spots in the database and returns 3 values:
-    spotname, location, sid
+    selects all of the spots in the database and returns a list of dictionaries 
+    with the following 3 values: spotname, location, sid
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute('''select spotname, location, sid
