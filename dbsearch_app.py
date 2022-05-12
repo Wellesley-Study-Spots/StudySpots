@@ -10,7 +10,7 @@ def spot_lookup(conn, sid):
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute(
-        '''select spotname, description, location, amenities
+        '''select spotname, description, photo, location, amenities
         from spot
         where sid = %s''', [sid]
     )
@@ -18,15 +18,16 @@ def spot_lookup(conn, sid):
     return spot
 
 
-def add_spot(conn, spotname, description, location, amenities, uid):
+def add_spot(conn, spotname, description, location, amenities, uid, filename):
     '''
     inserts a spot to a database and returns the spot's sid
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute(
-        '''insert into spot(spotname, description, location, amenities, author)
-            values(%s, %s, %s, %s, %s)
-        ''', [spotname, description, location, amenities, uid]
+        '''insert into spot(spotname, description, location, amenities, author, photo)
+            values(%s, %s, %s, %s, %s, %s)
+            on duplicate key update photo = %s
+        ''', [spotname, description, location, amenities, uid, filename, filename]
     )
     conn.commit()
     curs.execute('select last_insert_id()')
@@ -83,7 +84,7 @@ def search(conn, kind, query):
         rows = curs.fetchall()
         return rows
 
-def edit_spot(conn, spotname, description, location, amenities, sid):
+def edit_spot(conn, spotname, description, filename, location, amenities, sid):
     '''
     updates a spot in the database and commits the changes to the database
     '''
@@ -105,6 +106,13 @@ def edit_spot(conn, spotname, description, location, amenities, sid):
             '''
             update spot set description = %s where sid=%s
             ''', [description, sid]
+        )
+
+    if len(str(filename)) > 0:
+        curs.execute(
+            '''
+            update spot set photo = %s where sid=%s
+            ''', [filename, sid]
         )
 
         conn.commit()

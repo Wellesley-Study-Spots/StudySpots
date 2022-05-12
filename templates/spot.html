@@ -6,6 +6,10 @@
 
 {% block main_content %}
 <div class='addspot_margins'>
+    <div>
+        <a href="{{ url_for('pic',sid=sid) }}"><img id = "spot_image" src="{{ url_for('pic',sid=sid) }}" alt="{{title}}"></a>
+    </div>
+
     <h1>{{title}}</h1>
     
     <div class="flex-button-container">

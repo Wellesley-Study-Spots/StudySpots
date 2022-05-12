@@ -24,6 +24,10 @@ app.secret_key = ''.join([ random.choice(('ABCDEFGHIJKLMNOPQRSTUVXYZ' +
 # This gets us better error messages for certain common request errors
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
+# new for file upload
+app.config['UPLOADS'] = 'uploads'
+app.config['MAX_CONTENT_LENGTH'] = 1*1024*1024 # 1 MB
+
 @app.route('/')
 def index():
     #if the user is logged in, then redirect the user so they do not have to login again
@@ -128,14 +132,43 @@ def addspot():
         a = request.form.getlist('amenities')
         amenities = ','.join(a)
         uid = session.get('uid')
+        filename = None
 
-        #Add spot
+        # Add spot without an image so that the spot is associated with an sid
         conn = dbi.connect()
-        sid = dbsearch_app.add_spot(conn, spotname, description, location, amenities, uid)
+        # add.spot returns sid
+        sid = dbsearch_app.add_spot(conn, spotname, description, location, amenities, uid, filename)
+
+        # Picture upload
+        f = request.files['pic']
+        if f.filename == '':
+            filename = 'default.png'
+            pathname = os.path.join(app.config['UPLOADS'],filename)
+            f.save(pathname)
+        else:
+            user_filename = f.filename
+            ext = user_filename.split('.')[-1]
+            filename = secure_filename('{}.{}'.format(sid,ext))
+            pathname = os.path.join(app.config['UPLOADS'],filename)
+            f.save(pathname)
+        print(pathname)
+        # Add spot with image
+        conn = dbi.connect()
+        dbsearch_app.edit_spot(conn, spotname, description, filename, location, amenities, sid)
 
         #Redirect to individual spot page
         return redirect( url_for('studyspot_lookup', sid=sid)) 
 
+@app.route('/pic/<sid>')
+def pic(sid):
+    conn = dbi.connect()
+    curs = dbi.dict_cursor(conn)
+    curs.execute(
+        '''select photo from spot where sid = %s''',
+        [sid])
+    row = curs.fetchone()
+    print(app.config['UPLOADS'],row['photo'])
+    return send_from_directory(app.config['UPLOADS'],row['photo'])
 
 #Creates the individual study spot page
 @app.route('/studyspot/<int:sid>',  methods=["GET"])
@@ -151,10 +184,20 @@ def studyspot_lookup(sid):
     location = studyspot['location']
     amenities = studyspot['amenities'].split(",")
     uid = session.get('uid')
+    filename = studyspot['photo']
 
     reviews = dbreview_app.get_reviews(conn, sid)
 
-    return render_template('spot.html', page_title=title, title=title, description = description, location = location, amenities  = amenities, sid  = sid, reviews = reviews, uid = uid)
+    return render_template('spot.html', 
+                            page_title=title, 
+                            title=title, 
+                            description = description, 
+                            location = location, 
+                            amenities  = amenities, 
+                            sid  = sid, 
+                            reviews = reviews, 
+                            uid = uid,
+                            filename = filename)
 
 @app.route('/review/<int:sid>', methods=["POST"])
 def review(sid):
@@ -191,7 +234,23 @@ def edit_spot(sid):
         a = request.form.getlist('amenities')
         amenities = ','.join(a)
 
-        dbsearch_app.edit_spot(conn, spotname, description, location, amenities, sid)
+        # Picture upload
+        f = request.files['pic']
+        if f.filename == '':
+            filename = 'default.png'
+            pathname = os.path.join(app.config['UPLOADS'],filename)
+            f.save(pathname)
+        else:
+            user_filename = f.filename
+            ext = user_filename.split('.')[-1]
+            filename = secure_filename('{}.{}'.format(sid,ext))
+            pathname = os.path.join(app.config['UPLOADS'],filename)
+            f.save(pathname)
+        print(pathname)
+
+        # Add spot with image
+        conn = dbi.connect()
+        dbsearch_app.edit_spot(conn, spotname, description, filename, location, amenities, sid)
 
         return redirect(url_for('studyspot_lookup', sid = sid))
 
