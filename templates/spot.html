@@ -38,9 +38,7 @@
      </div>
     </div>
 
-
     </div>
-
       <h2 class="spot_title">Reviews</h2>
       <div class="review-form">
         <h3>Write a Review</h3>
@@ -52,7 +50,7 @@
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="4">5</option>
+                <option value="5">5</option>
             </select>
             <div class = "addspot_label">
                 <textarea required name="comment" rows="3" cols="50" placeholder="Write a review" aria-label="write a review"></textarea>
@@ -61,7 +59,7 @@
         </form>
       </div>
 
-      {% if reviews|length > 0 %}
+        {% if reviews|length > 0 %}
         <div>
             {% for review in reviews %}
             <div class="reviews-container">
@@ -70,16 +68,18 @@
                 <div class="review-row review-comment">{{review['comment']}}</div>
                 {% if review['author'] == uid %}
                     <form action = "{{url_for('delete_review', rid = review['rid'])}}" method = "POST">
-                        <input class = "submit" type = "submit" name = "submit" value = "Delete">
+                        <input class = "delete submit" type = "submit" name = "submit" value = "Delete">
                     </form>    
                 {% endif %}
             </div>
             {% endfor %}
         </div>
-      {% endif %}
-      <form action = "{{url_for('delete_spot', sid = sid)}}" method = "POST">
-        <input class = "submit light-text flex-button-row" type = "submit" name = "submit" value = "Delete spot">
+        {% endif %}
+    
+    {% if spot_author == uid %}
+    <form action = "{{url_for('delete_spot', sid = sid)}}" method = "POST">
+        <input class = "submit light-text flex-button-row delete" type = "submit" name = "submit" value = "Delete spot">
     </form>   
+    {% endif %}
 </div>
-
 {% endblock %}

@@ -10,8 +10,7 @@ import cs304dbi as dbi
 import login_app
 import dbsearch_app
 import dbreview_app
-# import cs304dbi_sqlite3 as dbi
-
+import os
 import random
 
 app.secret_key = 'your secret here'
@@ -35,7 +34,8 @@ def index():
         return redirect(url_for("homepage"))
     #if the user is not logged in, have them either sign up or login
     else:
-        return render_template('main.html', page_title="StudySpots")
+        return render_template('main.html', 
+                                page_title="StudySpots")
 
 @app.route('/signup/', methods=["GET", "POST"])
 def signup():
@@ -43,6 +43,11 @@ def signup():
         email = request.form.get('email')
         username = request.form.get('username')
         passwd = request.form.get('password')
+
+        if len(email) > 25:
+            flash('please use a wellesley email address with less than 25 characters in total')
+            return render_template('signup.html', 
+                                    page_title = "Signup")
 
         conn = dbi.connect()
 
@@ -64,7 +69,8 @@ def signup():
         session['visits'] = 1
         return redirect(url_for('homepage'))
     else:
-        return render_template('signup.html', page_title="Signup")
+        return render_template('signup.html', 
+                                page_title="Signup")
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
@@ -81,7 +87,8 @@ def login():
         #if the login information was incorrect
         if row == (False, False):
             flash('login incorrect. Try again or join')
-            return render_template('login.html', page_title="Login")
+            return render_template('login.html', 
+                                    page_title="Login")
         else:
             #create session
             session['username'] = username
@@ -89,7 +96,8 @@ def login():
             session['logged_in'] = True
             session['visits'] = 1
             return redirect( url_for('homepage')) 
-    return render_template('login.html', page_title="Login")
+    return render_template('login.html', 
+                            page_title="Login")
 
 
 @app.route('/logout/')
@@ -118,12 +126,15 @@ def homepage():
         conn = dbi.connect()
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
-        return render_template('homepage.html', spots = spots[-3:], page_title="StudySpots")
+        return render_template('homepage.html', 
+                                spots = spots[-3:], 
+                                page_title="StudySpots")
 
 @app.route('/addspot/', methods = ["GET", "POST"])
 def addspot():
     if request.method == 'GET':
-        return render_template('addspot.html', page_title="Add a New Spot")
+        return render_template('addspot.html', 
+                                page_title="Add a New Spot")
     if request.method == 'POST':
         # Grab spot values
         spotname = request.form['spotname']
@@ -137,36 +148,32 @@ def addspot():
         # Add spot without an image so that the spot is associated with an sid
         conn = dbi.connect()
         # add.spot returns sid
-        sid = dbsearch_app.add_spot(conn, spotname, description, location, amenities, uid, filename)
+        sid = dbsearch_app.add_spot(conn, spotname, description, 
+                                    location, amenities, uid, filename)
 
-        # Picture upload
+        # file upload
         f = request.files['pic']
-        if f.filename == '':
-            filename = 'default.png'
-            pathname = os.path.join(app.config['UPLOADS'],filename)
-            f.save(pathname)
-        else:
-            user_filename = f.filename
-            ext = user_filename.split('.')[-1]
-            filename = secure_filename('{}.{}'.format(sid,ext))
-            pathname = os.path.join(app.config['UPLOADS'],filename)
-            f.save(pathname)
+        user_filename = f.filename
+        ext = user_filename.split('.')[-1]
+        filename = secure_filename('{}.{}'.format(sid,ext))
+        pathname = os.path.join(app.config['UPLOADS'],filename)
+        f.save(pathname)
+
         print(pathname)
         # Add spot with image
         conn = dbi.connect()
-        dbsearch_app.edit_spot(conn, spotname, description, filename, location, amenities, sid)
+        dbsearch_app.edit_spot(conn, spotname, description, 
+                                filename, location, amenities, sid)
 
         #Redirect to individual spot page
-        return redirect( url_for('studyspot_lookup', sid=sid)) 
+        return redirect( url_for('studyspot_lookup', 
+                                    sid=sid)) 
 
 @app.route('/pic/<sid>')
 def pic(sid):
     conn = dbi.connect()
     curs = dbi.dict_cursor(conn)
-    curs.execute(
-        '''select photo from spot where sid = %s''',
-        [sid])
-    row = curs.fetchone()
+    row = dbsearch_app.get_photo(conn, sid)
     print(app.config['UPLOADS'],row['photo'])
     return send_from_directory(app.config['UPLOADS'],row['photo'])
 
@@ -183,6 +190,7 @@ def studyspot_lookup(sid):
     description = studyspot['description']
     location = studyspot['location']
     amenities = studyspot['amenities'].split(",")
+    spot_author = studyspot['author']
     uid = session.get('uid')
     filename = studyspot['photo']
 
@@ -197,6 +205,7 @@ def studyspot_lookup(sid):
                             sid  = sid, 
                             reviews = reviews, 
                             uid = uid,
+                            spot_author = spot_author,
                             filename = filename)
 
 @app.route('/review/<int:sid>', methods=["POST"])
@@ -224,8 +233,13 @@ def edit_spot(sid):
         old_location = row['location']
         old_a = row['amenities']
 
-        return render_template('edit_spot.html', sid = sid, spotname = row['spotname'], 
-        description = old_description, location = old_location, amenities=old_a, page_title="Edit spot")
+        return render_template('edit_spot.html', 
+                                sid = sid, 
+                                spotname = row['spotname'], 
+                                description = old_description, 
+                                location = old_location, 
+                                amenities=old_a, 
+                                page_title="Edit spot")
         
     else:
         spotname = request.form['spotname']
@@ -234,23 +248,34 @@ def edit_spot(sid):
         a = request.form.getlist('amenities')
         amenities = ','.join(a)
 
-        # Picture upload
+        # file upload
         f = request.files['pic']
-        if f.filename == '':
-            filename = 'default.png'
-            pathname = os.path.join(app.config['UPLOADS'],filename)
-            f.save(pathname)
-        else:
+        filename = ''
+
+        # if there is a new file
+        if len(f.filename) > 0:
+            #get the name of the old photo
+            row = dbsearch_app.get_photo(conn, sid) 
+            photo = row['photo']   
+
+            #only delete if the file exists
+            if os.path.exists("uploads/{}".format(photo)):
+                os.remove("uploads/{}".format(photo))
+            else:
+                flash('error occured: unable to delete')
+                return redirect(url_for('edit_spot', sid = sid))
+
+            #replace old photo with new photo
             user_filename = f.filename
             ext = user_filename.split('.')[-1]
             filename = secure_filename('{}.{}'.format(sid,ext))
             pathname = os.path.join(app.config['UPLOADS'],filename)
             f.save(pathname)
-        print(pathname)
 
-        # Add spot with image
+        # commit changes to the databases
         conn = dbi.connect()
-        dbsearch_app.edit_spot(conn, spotname, description, filename, location, amenities, sid)
+        dbsearch_app.edit_spot(conn, spotname, description, 
+                                filename, location, amenities, sid)
 
         return redirect(url_for('studyspot_lookup', sid = sid))
 
@@ -266,6 +291,17 @@ def edit_spot(sid):
 @app.route('/delete-spot/<int:sid>', methods = ["POST"])
 def delete_spot(sid):
     conn = dbi.connect()
+
+    #get the name of the photo
+    row = dbsearch_app.get_photo(conn, sid) 
+    photo = row['photo']   
+
+    #only delete if the file exists
+    if os.path.exists("uploads/{}".format(photo)):
+        os.remove("uploads/{}".format(photo))
+    else:
+        flash('error occured: unable to delete')
+        return redirect(url_for('studyspot_lookup', sid = sid))
 
     dbsearch_app.delete_spot(conn, sid)
     flash('successfully deleted spot')
@@ -288,7 +324,10 @@ def search():
 
     rows = dbsearch_app.search(conn, kind, query)
 
-    return render_template('search.html', rows = rows, query = query, page_title="Search results")
+    return render_template('search.html', 
+                            rows = rows, 
+                            query = query, 
+                            page_title="Search results")
 
 @app.before_first_request
 def init_db():

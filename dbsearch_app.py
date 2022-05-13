@@ -5,12 +5,12 @@ import dbreview_app
 
 def spot_lookup(conn, sid):
     '''
-    selects a spot in the spot table and returns four values:
-    the spotname, description, location, and amenities
+    selects a spot in the spot table and returns five values:
+    the spotname, description, location, amenities, and author
     '''
     curs = dbi.dict_cursor(conn)
     curs.execute(
-        '''select spotname, description, photo, location, amenities
+        '''select spotname, description, photo, location, amenities, author
         from spot
         where sid = %s''', [sid]
     )
@@ -91,23 +91,17 @@ def edit_spot(conn, spotname, description, filename, location, amenities, sid):
 
     curs = dbi.dict_cursor(conn)
 
-    if len(spotname) > 0:
-        curs.execute(
-            '''
-            update spot set spotname = %s where sid=%s
-            ''', [spotname, sid]
-        )
-        
-        conn.commit()
+    curs.execute(
+        '''
+        update spot 
+        set spotname = %s, description = %s, location = %s, amenities = %s
+        where sid = %s
+        ''', [spotname, description, location, amenities, sid]
+    )
 
-    
-    if len(description) > 0:
-        curs.execute(
-            '''
-            update spot set description = %s where sid=%s
-            ''', [description, sid]
-        )
+    conn.commit()
 
+    #only commit chnages to the database if there is a new file
     if len(str(filename)) > 0:
         curs.execute(
             '''
@@ -117,25 +111,6 @@ def edit_spot(conn, spotname, description, filename, location, amenities, sid):
 
         conn.commit()
 
-
-    if len(location) > 0:
-        curs.execute(
-            '''
-            update spot set location = %s where sid=%s
-            ''', [location, sid]
-        )
-
-        conn.commit()
-
-
-    if len(amenities) > 0:
-        curs.execute(
-            '''
-            update spot set amenities = %s where sid=%s
-            ''', [amenities, sid]
-        )
-
-        conn.commit()
 
 def delete_spot(conn, sid):
     '''
@@ -156,5 +131,17 @@ def delete_spot(conn, sid):
 
     conn.commit()
 
+def get_photo(conn, sid):
+    '''
+    gets the photo from the spot table and returns
+    the name of the photo
+    '''
+    curs = dbi.dict_cursor(conn)
 
+    curs.execute(
+        '''select photo from spot where sid = %s''',
+        [sid])
+
+    row = curs.fetchone()
+    return row
 
