@@ -127,7 +127,7 @@ def homepage():
         spots = dbsearch_app.all_spots_lookup(conn)
         # render them on page
         return render_template('homepage.html', 
-                                spots = spots[-3:], 
+                                spots = spots[-9:], 
                                 page_title="StudySpots")
 
 @app.route('/addspot/', methods = ["GET", "POST"])
@@ -159,7 +159,6 @@ def addspot():
         pathname = os.path.join(app.config['UPLOADS'],filename)
         f.save(pathname)
 
-        print(pathname)
         # Add spot with image
         conn = dbi.connect()
         dbsearch_app.edit_spot(conn, spotname, description, 
@@ -174,7 +173,6 @@ def pic(sid):
     conn = dbi.connect()
     curs = dbi.dict_cursor(conn)
     row = dbsearch_app.get_photo(conn, sid)
-    print(app.config['UPLOADS'],row['photo'])
     return send_from_directory(app.config['UPLOADS'],row['photo'])
 
 #Creates the individual study spot page
