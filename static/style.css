@@ -231,12 +231,30 @@ div, label {
     margin-right: 100px;
     /* margin-top: 100px; */
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.spot {
+    margin: 30px;
+    /* border: border-box; */
+    border: 2px solid transparent;
+    padding: 10px;
+    background-color: #bfada6; 
+    flex: 1 1 0px;
+}
+
+.flex-container-homepage {
+    margin-left: 100px;
+    margin-right: 100px;
+    /* margin-top: 100px; */
+    display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: left;
 }
 
-.spot {
+.spot-homepage {
     margin: 30px;
     /* border: border-box; */
     border: 2px solid transparent;

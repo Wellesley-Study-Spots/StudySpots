@@ -6,14 +6,14 @@
         <!-- just a placeholder for now, will discuss placement in future iterations -->
         <a class = "main_redirect addspot" href="{{url_for('addspot')}}">Add a Spot</a>
         <h3 class="recent-space">Recently Added Spots</h3> 
-        <div class="flex-container">
+        <div class="flex-container-homepage">
         {% for s in spots %}
         <!-- <div class="spot">
             <div class="photo">{{s['photo']}}</div>
             <a href="{{url_for('studyspot_lookup', sid = s['sid'])}}"><h4 class='name'>{{s['spotname']}}</h4></a> 
             <h4 class='location'>{{s['location']}}</h4>
         </div> -->
-        <a class = "spot" href="{{url_for('studyspot_lookup', sid = s['sid'])}}">
+        <a class = "spot-homepage" href="{{url_for('studyspot_lookup', sid = s['sid'])}}">
             <div>
             <h4 class='name'>{{s['spotname']}}</h4>
                 <h4 class='location'>{{s['location']}}</h4>
