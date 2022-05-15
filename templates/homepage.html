@@ -2,12 +2,6 @@
 
 
 {% block main_content %}
-    <div class = "navbar">
-        <ul>
-            <li><a href="{{ url_for('homepage') }}">Home</a></li>
-            <li><a href="{{ url_for('addspot') }}">Add a spot</a></li>
-        </ul>
-    </div>
     <div class = "main homepage">
         <!-- just a placeholder for now, will discuss placement in future iterations -->
         <a class = "main_redirect addspot" href="{{url_for('addspot')}}">Add a Spot</a>

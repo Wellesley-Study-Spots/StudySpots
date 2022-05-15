@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-<div class = "navbar">
-    <ul>
-        <li><a href="{{ url_for('homepage') }}">Home</a></li>
-        <li><a href="{{ url_for('addspot') }}">Add a spot</a></li>
-    </ul>
-</div>
-
 <div class = "main homepage">
     <h3>Search Results for: "{{query}}"</h3> 
     <div class="flex-container-search">

@@ -5,12 +5,6 @@
 
 {% block main_content %}
 <div class="addspot_margins">
-    <div class = "navbar">
-        <ul>
-            <li><a href="{{ url_for('homepage') }}">Home</a></li>
-            <li><a href="{{ url_for('addspot') }}">Add a spot</a></li>
-        </ul>
-    </div>
     <h1>Edit: {{spotname}}</h1>
 
     <form method="post" action="{{url_for('edit_spot', sid = sid)}}" enctype="multipart/form-data">
