@@ -5,6 +5,13 @@
 
 
 {% block main_content %}
+<div class = "navbar">
+    <ul>
+        <li><a href="{{ url_for('homepage') }}">Home</a></li>
+        <li><a href="{{ url_for('addspot') }}">Add a spot</a></li>
+    </ul>
+</div>
+
 <div class='addspot_margins'>
     <div>
         <a href="{{ url_for('pic',sid=sid) }}"><img id = "spot_image" src="{{ url_for('pic',sid=sid) }}" alt="{{title}}"></a>

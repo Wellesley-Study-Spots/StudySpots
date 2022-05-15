@@ -56,6 +56,29 @@ h3.recent-space {
     font-weight: bold;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position:fixed;
+    top:0;
+    width:100%;
+}
+
+li {
+    display: inline;
+    list-style-type: none;
+    float: left; 
+    background-color: #bfada6;
+    text-align: center;
+    font-size: 15px;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 10px 10px;
+}
 .signup {
     margin: 20px;
 }
