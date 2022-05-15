@@ -276,15 +276,6 @@ def edit_spot(sid):
                                 filename, location, amenities, sid)
 
         return redirect(url_for('studyspot_lookup', sid = sid))
-
-# @app.route('/edit-review/<int:rid>', methods = ["GET", "POST"])
-# def edit_review(rid):
-#     conn = dbi.connect()
-
-#     if request.method == "GET":
-#         return render_template('edit_review.html')
-#     else:
-#         return redirect(url_for('studyspot_lookup', sid = sid))
     
 @app.route('/delete-spot/<int:sid>', methods = ["POST"])
 def delete_spot(sid):

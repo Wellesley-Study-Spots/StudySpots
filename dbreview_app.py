@@ -48,9 +48,7 @@ def get_review(conn, rid):
 
     curs.execute(
         '''
-        select sid
-        from review
-        where rid = %s
+        select sid from review where rid = %s
         ''', [rid]
     )
 
